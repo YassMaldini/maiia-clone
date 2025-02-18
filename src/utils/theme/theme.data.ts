@@ -25,8 +25,8 @@ export const borderRadii = {
   s: 8,    
   m: 12,   
   l: 16,   
-  xl: 20,  
-  xxl: 24, 
+  xl: 32,  
+  xxl: 48, 
   rounded: 250
 };
 
@@ -41,7 +41,7 @@ export const breakpoints = {
 export const textVariants = {
   defaults: {
     color: 'textPrimary',
-    fontFamily: 'SourceSans3-Regular',
+    fontFamily: 'Regular',
     fontWeight: '400',
     letterSpacing: 0.5,
     fontSize: 14

@@ -3,6 +3,9 @@ export const PALETTE = Object.freeze({
   black: '#000000',
   primary: '#08a6a0', 
   primaryLight: '#08a6a0', 
+  primaryDark: '#417b90',
+  primaryGradientStart: '#64c9c3', 
+  primaryGradientEnd: '#50b3c8', 
   secondary: '#e0f5f4', 
   secondaryLight: '#fbe5cb', 
   accent: '#9fdbf5', 
@@ -12,11 +15,11 @@ export const PALETTE = Object.freeze({
   success: '#388E3C', 
   warning: '#FFA000', 
   info: '#0288D1', 
-  textPrimary: '#212121', 
+  textPrimary: '#294b57', 
   textSecondary: '#4C4C4C', 
-  border: '#BDBDBD', 
+  border: '#cfdde3', 
   muted: '#90A4AE', 
 
   green: '#00581e',
-  lightGreen: '#e1f9e9'
+  lightGreen: '#e1f9e9',
 });

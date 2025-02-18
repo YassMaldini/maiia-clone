@@ -38,7 +38,8 @@ export default () => {
             paddingHorizontal: theme.spacing.mToL,
             paddingVertical: theme.spacing.s
           },
-        }}>
+        }}
+      >
         <Screen
           name="HomeStack"
           component={HomeStack}

@@ -25,9 +25,9 @@ export default () => {
   }, []);
 
   const [fontsLoaded] = useFonts({
-    'SourceSans3-Regular': require('../../../assets/fonts/SourceSans3-Regular.ttf'),
-    'SourceSans3-Italic': require('../../../assets/fonts/SourceSans3-Italic.ttf'),
-    'SourceSans3-SemiBold': require('../../../assets/fonts/SourceSans3-SemiBold.ttf'),
+    'Regular': require('../../../assets/fonts/SourceSans3-Regular.ttf'),
+    'Italic': require('../../../assets/fonts/SourceSans3-Italic.ttf'),
+    'SemiBold': require('../../../assets/fonts/SourceSans3-SemiBold.ttf'),
     'Outfit-Bold': require('../../../assets/fonts/Outfit-Bold.ttf')
   });
 
@@ -43,7 +43,7 @@ export default () => {
 
   return (
     <NavigationContainer theme={navigationTheme}>
-      <StatusBar translucent />
+      <StatusBar backgroundColor="transparent" translucent />
       <ThemeProvider {...{ theme }}>
         <BottomSheetModalProvider>
           <Box

@@ -55,30 +55,28 @@ const TextInput = forwardRef<RNTextInput, TextInputprops>(({ startIcon, endIcon,
 
   return (
     <Box
-      borderRadius="m"
-      // borderWidth={0.5}
-      // borderColor="border"
-      marginBottom="sToM"
+      borderRadius="xxl"
       flexDirection="row"
       alignItems="center"
-      backgroundColor="surface"
+      backgroundColor="background"
       {...boxProps}
     >
       {startIcon &&
         <SvgIcon 
           icon={startIcon}
-          color="textSecondary"
-          width={26}
-          height={26}
-          marginHorizontal="s"
+          color="primaryDark"
+          width={16}
+          height={16}
+          marginLeft="sToM"
+          marginRight="sToStoM"
         />
       }
       <Component
         paddingHorizontal={startIcon ? "none" : "sToM"}
         paddingVertical="sToStoM"
         color="textPrimary"
-        placeholderTextColor={theme.colors.textSecondary}
-        fontSize={18}
+        placeholderTextColor={theme.colors.primaryDark}
+        fontSize={15}
         flex={1}
         {...rootProps}
         {...{ ref }}
@@ -86,6 +84,8 @@ const TextInput = forwardRef<RNTextInput, TextInputprops>(({ startIcon, endIcon,
       {endIcon &&
         <SvgIcon 
           icon={endIcon}
+          width={16}
+          height={16}
         />
       }
     </Box>
