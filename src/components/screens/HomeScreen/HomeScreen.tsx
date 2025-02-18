@@ -23,12 +23,7 @@ export default () => {
 
       <Box paddingVertical="mToL" paddingHorizontal="sToM">
         <Box marginBottom="sToM">
-          <Text
-            fontFamily="SemiBold"
-            fontSize={18}
-            fontWeight="800"
-            marginBottom="s"
-          >
+          <Text variant="label">
             Avec l'application Maiia
           </Text>
           <ScrollView
@@ -81,12 +76,7 @@ export default () => {
         </Box>
 
         <Box>
-          <Text
-            fontFamily="SemiBold"
-            fontSize={18}
-            fontWeight="800"
-            marginBottom="s"
-          >
+          <Text variant="label">
             Mes practiciens
           </Text>
           <Card

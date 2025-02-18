@@ -75,8 +75,9 @@ const TextInput = forwardRef<RNTextInput, TextInputprops>(({ startIcon, endIcon,
         paddingHorizontal={startIcon ? "none" : "sToM"}
         paddingVertical="sToStoM"
         color="textPrimary"
-        placeholderTextColor={theme.colors.primaryDark}
+        placeholderTextColor={theme.colors.textSecondary}
         fontSize={15}
+        // fontFamily="Italic"
         flex={1}
         {...rootProps}
         {...{ ref }}

@@ -2,7 +2,7 @@ export const PALETTE = Object.freeze({
   white: '#FFFFFF',
   black: '#000000',
   primary: '#08a6a0', 
-  primaryLight: '#08a6a0', 
+  primaryLight: '#dcf0ef', 
   primaryDark: '#417b90',
   primaryGradientStart: '#64c9c3', 
   primaryGradientEnd: '#50b3c8', 
@@ -16,7 +16,7 @@ export const PALETTE = Object.freeze({
   warning: '#FFA000', 
   info: '#0288D1', 
   textPrimary: '#294b57', 
-  textSecondary: '#4C4C4C', 
+  textSecondary: '#b7b7b7', 
   border: '#cfdde3', 
   muted: '#90A4AE', 
 

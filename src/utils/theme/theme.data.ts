@@ -45,5 +45,11 @@ export const textVariants = {
     fontWeight: '400',
     letterSpacing: 0.5,
     fontSize: 14
+  },
+  label: {
+    fontFamily: "SemiBold",
+    fontSize: 18,
+    fontWeight: "800",
+    marginBottom: "s"
   }
 };
