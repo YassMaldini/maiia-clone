@@ -5,9 +5,9 @@ import Text from "../../../designSystem/Text/Text"
 import { SvgIcon } from "../../../designSystem/SvgIcon/SvgIcon"
 import ChevronRightIcon from "../../../../../assets/svg/chevron-right.svg"
 
-export default ({ label }: SearchOtherSpacialityButtonProps) => {
+export default ({ label, ...props }: SearchOtherSpacialityButtonProps) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity {...props}>
       <Box
         padding="sToStoM"
         flexDirection="row"

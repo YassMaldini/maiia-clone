@@ -19,7 +19,11 @@ export const LIGHT_COLORS = Object.freeze({
   textSecondary: colors.textSecondary,
   border: colors.border,
   muted: colors.muted,
+  transparent: colors.transparent,
   
   white: colors.white,
-  black: colors.black
+  black: colors.black,
+
+  green: colors.green,
+  lightGreen: colors.lightGreen,
 });

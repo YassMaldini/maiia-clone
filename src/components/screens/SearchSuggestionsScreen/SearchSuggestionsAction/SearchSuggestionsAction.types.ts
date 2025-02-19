@@ -1,7 +1,8 @@
 import { TouchableOpacityProps } from "react-native";
 import { SvgProps } from "react-native-svg";
 
-export interface SearchSpecialityCardProps extends TouchableOpacityProps {
+export interface SearchSuggestionsActionProps extends TouchableOpacityProps {
   icon: React.FC<SvgProps>;
-  label: string;
+  topText: string;
+  bottomText: string;
 }

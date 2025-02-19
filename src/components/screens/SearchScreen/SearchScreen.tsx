@@ -12,10 +12,15 @@ import { mostSearchedSpecialities, otherSpecialities } from "./SearchScreen.data
 import { TouchableHighlight, TouchableOpacity } from "react-native"
 import SearchSpecialityCard from "./SearchSpecialityCard/SearchSpecialityCard"
 import SearchOtherSpacialityButton from "./SearchOtherSpacialityButton/SearchOtherSpacialityButton"
+import { useNavigation } from "@react-navigation/native"
+import { SearchScreenProps } from "./SearchScreen.types"
+import { SearchStackScreenList } from "../../navigation/SearchStack/SearchStack.types"
 
 export default () => {
 
   const { colors } = useTheme<Theme>()
+
+  const { navigate } = useNavigation<SearchScreenProps['navigation']>()
 
   return (
     <Box flex={1}>
@@ -36,6 +41,7 @@ export default () => {
           <TextInput
             startIcon={SearchIcon}
             placeholder="Vous recherchez ... ?"
+            editable={false}
           />
         </Box>
 
@@ -56,7 +62,11 @@ export default () => {
               gap="sToStoM"
             >
               {mostSearchedSpecialities.map(({ icon, label }, index) => (
-                <SearchSpecialityCard key={index} {...{ icon, label }} />
+                <SearchSpecialityCard 
+                  key={index} 
+                  {...{ icon, label }} 
+                  onPress={() => navigate(SearchStackScreenList.SearchSuggestionsScreen, { speciality: label })}
+                />
               ))}
             </Box>
           </Box>
@@ -67,7 +77,11 @@ export default () => {
             </Text>
             <Box>
               {otherSpecialities.map(({ label }, index) => (
-                <SearchOtherSpacialityButton key={index} {...{ label }} />
+                <SearchOtherSpacialityButton 
+                  key={index} 
+                  {...{ label }} 
+                  onPress={() => navigate(SearchStackScreenList.SearchSuggestionsScreen, { speciality: label })}
+                />
               ))}
             </Box>
           </Box>

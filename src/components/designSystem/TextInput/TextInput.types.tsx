@@ -21,5 +21,6 @@ export type TextInputprops = SpacingProps<Theme> &
   RNTextInputProps & {
     startIcon?: FC<SvgProps>;
     endIcon?: FC<SvgProps>;
+    hasBlurIcon?: boolean;
     boxProps?: BoxProps<Theme>;
   };

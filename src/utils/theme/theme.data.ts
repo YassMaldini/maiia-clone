@@ -43,7 +43,7 @@ export const textVariants = {
     color: 'textPrimary',
     fontFamily: 'Regular',
     fontWeight: '400',
-    letterSpacing: 0.5,
+    letterSpacing: 0.3,
     fontSize: 14
   },
   label: {

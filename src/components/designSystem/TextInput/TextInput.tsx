@@ -16,12 +16,15 @@ import {
   useRestyle,
   useTheme,
 } from '@shopify/restyle';
-import { forwardRef, useMemo } from 'react';
+import { ForwardedRef, forwardRef, RefObject, useMemo } from 'react';
 import { TextInputprops } from './TextInput.types';
 import { TextInput as RNTextInput } from 'react-native';
 import { Theme } from '../../../utils/theme/theme';
 import Box from '../Box/Box';
 import { SvgIcon } from '../SvgIcon/SvgIcon';
+import SearchIcon from '../../../../assets/svg/magnifying-glass-regular.svg'
+import CrossIcon from '../../../../assets/svg/xmark-regular.svg'
+import Pressable from '../Pressable/Pressable';
 
 type RestyleProps = SpacingProps<Theme> &
   LayoutProps<Theme> &
@@ -30,7 +33,7 @@ type RestyleProps = SpacingProps<Theme> &
   ColorProps<Theme> &
   TypographyProps<Theme>;
 
-const TextInput = forwardRef<RNTextInput, TextInputprops>(({ startIcon, endIcon, boxProps, ...rest }, ref) => {
+const TextInput = forwardRef<RNTextInput, TextInputprops>(({ startIcon, endIcon, hasBlurIcon, boxProps, ...rest }, ref) => {
 
   const theme = useTheme<Theme>()
   
@@ -59,18 +62,18 @@ const TextInput = forwardRef<RNTextInput, TextInputprops>(({ startIcon, endIcon,
       flexDirection="row"
       alignItems="center"
       backgroundColor="background"
+      borderWidth={0.5}
+      borderColor="border"
       {...boxProps}
     >
-      {startIcon &&
-        <SvgIcon 
-          icon={startIcon}
-          color="primaryDark"
-          width={16}
-          height={16}
-          marginLeft="sToM"
-          marginRight="sToStoM"
-        />
-      }
+      <SvgIcon 
+        icon={startIcon ? startIcon : SearchIcon}
+        color="textPrimary"
+        width={16}
+        height={16}
+        marginLeft="sToM"
+        marginRight="sToStoM"
+      />
       <Component
         paddingHorizontal={startIcon ? "none" : "sToM"}
         paddingVertical="sToStoM"
@@ -82,11 +85,28 @@ const TextInput = forwardRef<RNTextInput, TextInputprops>(({ startIcon, endIcon,
         {...rootProps}
         {...{ ref }}
       />
+      {hasBlurIcon &&
+        <Pressable onPress={() => {
+          (ref as RefObject<RNTextInput>).current?.clear()
+        }}>
+          <SvgIcon 
+            icon={CrossIcon}
+            color="textSecondary"
+            width={18}
+            height={18}
+            marginLeft="sToStoM"
+            marginRight="sToM"
+          />
+        </Pressable>
+      }
       {endIcon &&
         <SvgIcon 
           icon={endIcon}
-          width={16}
-          height={16}
+          color="primaryDark"
+          width={18}
+          height={18}
+          marginLeft="sToStoM"
+          marginRight="sToM"
         />
       }
     </Box>
