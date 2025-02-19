@@ -74,6 +74,7 @@ export function getButtonStyle(
       return {
         base: {
           backgroundColor: color,
+          borderColor: color,
           ...(
             size === ButtonSizes.Small
               ?

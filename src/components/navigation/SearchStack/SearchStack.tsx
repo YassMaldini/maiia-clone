@@ -1,3 +1,4 @@
+import PractitionerScreen from '../../screens/PractitionerScreen/PractitionerScreen';
 import SearchScreen from '../../screens/SearchScreen/SearchScreen';
 import SearchSuggestionsScreen from '../../screens/SearchSuggestionsScreen/SearchSuggestionsScreen';
 import { Navigator, Screen } from './SearchStack.navigator';
@@ -14,6 +15,7 @@ const SearchStack = () => {
       }}>
       <Screen name={SearchStackScreenList.SearchScreen} component={SearchScreen} />
       <Screen name={SearchStackScreenList.SearchSuggestionsScreen} component={SearchSuggestionsScreen} />
+      <Screen name={SearchStackScreenList.PractitionerScreen} component={PractitionerScreen} />
     </Navigator>
   );
 };

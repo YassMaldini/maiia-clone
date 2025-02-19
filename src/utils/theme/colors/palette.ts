@@ -6,7 +6,7 @@ export const PALETTE = Object.freeze({
   primaryDark: '#417b90',
   primaryGradientStart: '#64c9c3', 
   primaryGradientEnd: '#50b3c8', 
-  secondary: '#e0f5f4', 
+  secondary: '#fb3c7d', 
   secondaryLight: '#f5f8f9', 
   accent: '#9fdbf5', 
   background: '#fff', 

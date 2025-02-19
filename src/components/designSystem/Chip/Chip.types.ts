@@ -8,6 +8,7 @@ export interface ChipProps {
 export enum ChipColors {
   Primary = "primary",
   Secondary = "secondary",
+  Neutral = 'neutral',
   Green = 'green'
 }
 

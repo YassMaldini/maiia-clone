@@ -6,8 +6,14 @@ import Text from "../../../designSystem/Text/Text";
 import Chip from "../../../designSystem/Chip/Chip";
 import { ChipColors } from "../../../designSystem/Chip/Chip.types";
 import SearchSuggestionItemAvailabilities from "./SearchSuggestionItemAvailabilities/SearchSuggestionItemAvailabilities";
+import { useNavigation } from "@react-navigation/native";
+import { SearchSuggestionsScreenProps } from "../SearchSuggestionsScreen.types";
+import { SearchStackScreenList } from "../../../navigation/SearchStack/SearchStack.types";
 
 export default ({ variant }: SearchSuggestionItemProps) => {
+
+  const { navigate } = useNavigation<SearchSuggestionsScreenProps['navigation']>()
+
   return (
     <Pressable 
       marginBottom="sToM"
@@ -15,6 +21,7 @@ export default ({ variant }: SearchSuggestionItemProps) => {
       borderColor="border"
       padding="sToStoM"
       borderRadius="s"
+      onPress={() => navigate(SearchStackScreenList.PractitionerScreen, { practitionerId: 'someId' })}
     >
       <Box flexDirection="row" alignItems="center" marginBottom="s">
         <Image

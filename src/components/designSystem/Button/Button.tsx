@@ -29,9 +29,9 @@ export default ({
       {Icon &&
         <SvgIcon
           icon={Icon}
-          width={16}
-          height={16}
-          marginRight="s"
+          width={size === ButtonSizes.Small ? 16 : 20}
+          height={size === ButtonSizes.Small ? 16 : 20}
+          marginRight={size === ButtonSizes.Small ? 's' : 'sToStoM'}
           color={content.color}
         />
       }
