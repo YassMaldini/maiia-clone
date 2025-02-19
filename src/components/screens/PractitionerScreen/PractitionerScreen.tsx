@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient"
 import Box from "../../designSystem/Box/Box"
-import { SafeAreaView } from "react-native-safe-area-context"
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "@shopify/restyle"
 import { Theme } from "../../../utils/theme/theme"
 import { Dimensions, Image, ScrollView } from "react-native"
@@ -18,10 +18,19 @@ import ClockIcon from "../../../../assets/svg/clock-regular.svg"
 import Chip from "../../designSystem/Chip/Chip"
 import { ChipColors } from "../../designSystem/Chip/Chip.types"
 import Pressable from "../../designSystem/Pressable/Pressable"
+import ChevronLeftIcon from "../../../../assets/svg/chevron-left-regular.svg"
+import StarIcon from "../../../../assets/svg/star-regular.svg"
+import { useNavigation } from "@react-navigation/native"
+import { PractitionerScreenProps } from "./PractitionerScreen.types"
+import { SvgIcon } from "../../designSystem/SvgIcon/SvgIcon"
 
 export default () => {
 
-  const { colors } = useTheme<Theme>()
+  const { goBack } = useNavigation<PractitionerScreenProps['navigation']>()
+
+  const { top } = useSafeAreaInsets()
+
+  const { colors, spacing } = useTheme<Theme>()
 
   return (
     <Box flex={1}>
@@ -37,6 +46,36 @@ export default () => {
           height: 400
         }}
       />
+
+      <Box
+        position="absolute"
+        top={top + spacing.sToM}
+        left={spacing.m}
+        zIndex={9}
+      >
+        <Pressable onPress={goBack}>
+          <SvgIcon
+            icon={ChevronLeftIcon}
+            color="white"
+            width={22}
+            height={22}
+          />
+        </Pressable>
+      </Box>
+      <Box
+        position="absolute"
+        top={top + spacing.sToM}
+        right={spacing.m}
+      >
+        <Pressable onPress={goBack}>
+          <SvgIcon
+            icon={StarIcon}
+            color="white"
+            width={22}
+            height={22}
+          />
+        </Pressable>
+      </Box>
 
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView
@@ -60,23 +99,23 @@ export default () => {
               position: 'relative'
             }}
           >
-            <Box paddingBottom="mToL">
-              <Text
-                fontFamily="SemiBold"
-                fontSize={20}
-                textAlign="center"
-                color="white"
-              >
-                Dr. Anne Marie NAPOLI
-              </Text>
-              <Text
-                fontSize={15}
-                textAlign="center"
-                color="white"
-              >
-                Médecin généraliste
-              </Text>
-            </Box>
+              <Box paddingBottom="mToL">
+                <Text
+                  fontFamily="SemiBold"
+                  fontSize={20}
+                  textAlign="center"
+                  color="white"
+                >
+                  Dr. Anne Marie NAPOLI
+                </Text>
+                <Text
+                  fontSize={15}
+                  textAlign="center"
+                  color="white"
+                >
+                  Médecin généraliste
+                </Text>
+              </Box>
             <Box
               flexDirection="row"
               position="absolute"

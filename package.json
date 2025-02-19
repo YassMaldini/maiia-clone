@@ -20,6 +20,7 @@
     "apisauce": "^3.1.0",
     "dotenv": "^16.4.7",
     "expo": "~52.0.35",
+    "expo-constants": "~17.0.6",
     "expo-font": "~13.0.3",
     "expo-linear-gradient": "~14.0.2",
     "expo-splash-screen": "~0.29.22",
