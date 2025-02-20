@@ -1,5 +1,6 @@
-import { SearchQueryHit } from "../../../api/mutations/search/search.types";
+import { SearchQueryResponse } from "../../../api/mutations/search/search.types";
 
 export interface ActualSearchViewProps {
-  hits?: SearchQueryHit[];
+  data?: SearchQueryResponse;
+  isLoading: boolean;
 }

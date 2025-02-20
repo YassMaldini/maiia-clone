@@ -8,41 +8,128 @@ import BabyIcon from "../../../../assets/svg/baby-regular.svg"
 export const mostSearchedSpecialities = [
   {
     icon: DoctorIcon,
-    label: 'Médecin généraliste'
+    "name": "Médecin généraliste",
+    "code": "SM54",
+    "shortName": "medecin-generaliste",
+    "keywords": [],
+    "target": "PRACTITIONER",
+    "objectType": "speciality",
+    "externalId": "01_3",
+    "weight": 100,
+    "objectID": "5dc2f09b5341b80001317e5e"
   },
   {
     icon: HandIcon,
-    label: 'Dermatologue et vénérologue'
+    "name": "Dermatologue et vénérologue",
+    "code": "SM15",
+    "shortName": "dermatologue-et-venerologue",
+    "keywords": [],
+    "target": "PRACTITIONER",
+    "objectType": "speciality",
+    "externalId": "05_1",
+    "weight": 95,
+    "objectID": "5dc2f09a5341b80001317e4b"
   },
   {
     icon: BoneBreakIcon,
-    label: 'Masseur-kinésithérapeute'
+    "name": "Masseur-kinésithérapeute",
+    "code": "70",
+    "shortName": "masseur-kinesitherapeute",
+    "keywords": [
+      "Kinésithérapie"
+    ],
+    "target": "PRACTITIONER",
+    "objectType": "speciality",
+    "externalId": "26_1",
+    "weight": 94,
+    "objectID": "5dc2f09b5341b80001317e5b"
   },
   {
     icon: ToothIcon,
-    label: 'Chirurgien dentiste'
+    "name": "Chirurgien dentiste",
+    "code": "40",
+    "shortName": "chirurgien-dentiste",
+    "keywords": [],
+    "target": "PRACTITIONER",
+    "objectType": "speciality",
+    "externalId": "19_1",
+    "weight": 99,
+    "objectID": "5dc2f09a5341b80001317e4a"
   },
   {
     icon: HeartPulseIcon,
-    label: 'Cardiologue'
+    "name": "Cardiologue",
+    "code": "SM04",
+    "shortName": "cardiologue",
+    "keywords": [
+      "Vasculaire",
+      "Vasculaires"
+    ],
+    "target": "PRACTITIONER",
+    "objectType": "speciality",
+    "externalId": "03_1",
+    "weight": 91,
+    "objectID": "5dc2f09a5341b80001317e3e"
   },
   {
     icon: BabyIcon,
-    label: 'Pédiatre'
+    "name": "Pédiatre",
+    "code": "SM40",
+    "shortName": "pediatre",
+    "keywords": [],
+    "target": "PRACTITIONER",
+    "objectType": "speciality",
+    "externalId": "12_1",
+    "weight": 98,
+    "objectID": "5dc2f09b5341b80001317e70"
   }
 ]
 
 export const otherSpecialities = [
   {
-    label: 'Pharmacie'
+    "name": "Pharmacie",
+    "code": "620",
+    "shortName": "pharmacie",
+    "keywords": [],
+    "target": "CENTER",
+    "objectType": "speciality",
+    "externalId": "",
+    "weight": 1,
+    "objectID": "5dc2f09b5341b80001317e9f"
   },
   {
-    label: 'Rhumatologue'
+    "name": "Rhumatologue",
+    "code": "SM48",
+    "shortName": "rhumatologue",
+    "keywords": [],
+    "target": "PRACTITIONER",
+    "objectType": "speciality",
+    "externalId": "14_1",
+    "weight": 87,
+    "objectID": "5dc2f09b5341b80001317e7a"
   },
   {
-    label: 'Ophtalmologue'
+    "name": "Ophtalmologue",
+    "code": "SM38",
+    "shortName": "ophtalmologue",
+    "keywords": [
+      "TUTU"
+    ],
+    "target": "PRACTITIONER",
+    "objectType": "speciality",
+    "externalId": "15_1",
+    "weight": 96,
+    "objectID": "5dc2f09b5341b80001317e69"
   },
   {
-    label: 'Psychiatre'
+    "name": "Psychiatre",
+    "code": "SM42",
+    "shortName": "psychiatre",
+    "keywords": [],
+    "target": "PRACTITIONER",
+    "objectType": "speciality",
+    "externalId": "33_1",
+    "weight": 85,
+    "objectID": "5dc2f09b5341b80001317e74"
   }
 ]

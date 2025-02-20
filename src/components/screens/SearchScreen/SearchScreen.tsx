@@ -21,6 +21,7 @@ import ActualSearchView from "./ActualSearchView/ActualSearchView"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { SearchQueryHit, SearchQueryParams, SearchQueryResponse } from "../../api/mutations/search/search.types"
 import { SEARCH_QUERY_KEY, searchQuery } from "../../api/mutations/search/search.query"
+import { Loading } from "../../commons/Loading/Loading"
 
 export default () => {
 
@@ -33,16 +34,30 @@ export default () => {
   const searchBarRef = useRef<RNTextInput>(null)
 
   const [isSearchBarFocused, setSearchBarFocused] = useState(false)
-  const [searchResults, setSearchResults] = useState<SearchQueryHit[]>()
+  const [searchResult, setSearchResult] = useState<SearchQueryResponse>()
 
-  const { mutate: search } = useMutation<Awaited<SearchQueryResponse[]>, Error, SearchQueryParams>(
+  const { mutate: search, isPending } = useMutation<Awaited<SearchQueryResponse[]>, Error, SearchQueryParams>(
     {
       mutationKey: [SEARCH_QUERY_KEY],
       mutationFn: (data) => searchQuery(data),
       onMutate: () => queryClient.cancelQueries(),
       onSuccess: (response) => {
         console.log('response', response)
-        setSearchResults(response[0].hits)
+
+        const speciality = response.find(({ index }) => index.includes('speciality'))
+        const expertise = response.find(({ index }) => index.includes('expertise'))
+        const practitioner = response.find(({ index }) => index.includes('practitioner'))
+        const center = response.find(({ index }) => index.includes('center'))
+
+        if (speciality && speciality.nbHits > 0) {
+          setSearchResult(speciality)
+        } else if (expertise && expertise.nbHits > 0) {
+          setSearchResult(expertise)
+        } else if (practitioner && practitioner.nbHits > 0) {
+          setSearchResult(practitioner)
+        } else if (center && center.nbHits > 0) {
+          setSearchResult(center)
+        }
       },
     }
   );
@@ -64,11 +79,12 @@ export default () => {
           flexWrap="wrap"
           gap="sToStoM"
         >
-          {mostSearchedSpecialities.map(({ icon, label }, index) => (
+          {mostSearchedSpecialities.map(({ icon, ...item }, index) => (
             <SearchSpecialityCard
               key={index}
-              {...{ icon, label }}
-              onPress={() => navigate(SearchStackScreenList.SearchSuggestionsScreen, { speciality: label })}
+              label={item.name}
+              {...{ icon }}
+              onPress={() => navigate(SearchStackScreenList.SearchSuggestionsScreen, { searchHit: item })}
             />
           ))}
         </Box>
@@ -79,11 +95,11 @@ export default () => {
           Autres
         </Text>
         <Box>
-          {otherSpecialities.map(({ label }, index) => (
+          {otherSpecialities.map((item, index) => (
             <SearchOtherSpacialityButton
               key={index}
-              {...{ label }}
-              onPress={() => navigate(SearchStackScreenList.SearchSuggestionsScreen, { speciality: label })}
+              label={item.name}
+              onPress={() => navigate(SearchStackScreenList.SearchSuggestionsScreen, { searchHit: item })}
             />
           ))}
         </Box>
@@ -93,11 +109,11 @@ export default () => {
 
   const CurrentView = useCallback(() => {
     if (isSearchBarFocused) {
-      return <ActualSearchView hits={searchResults} />
+      return <ActualSearchView data={searchResult} isLoading={isPending} />
     } else {
       return <DefaultView />
     }
-  }, [isSearchBarFocused, searchResults])
+  }, [isSearchBarFocused, searchResult, isPending])
 
   return (
     <Box flex={1}>

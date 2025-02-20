@@ -1,6 +1,8 @@
+import { SearchQueryHit } from "../../api/mutations/search/search.types";
+
 export type SearchStackParamsList = {
   [SearchStackScreenList.SearchScreen]: undefined;
-  [SearchStackScreenList.SearchSuggestionsScreen]: { speciality: string };
+  [SearchStackScreenList.SearchSuggestionsScreen]: { searchHit: Omit<SearchQueryHit, '_highlightResult'> };
   [SearchStackScreenList.PractitionerScreen]: { practitionerId: string };
 };
 
