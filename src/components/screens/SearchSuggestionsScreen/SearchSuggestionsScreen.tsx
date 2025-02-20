@@ -26,6 +26,8 @@ import { useAvailabilities } from "../../api/queries/useAvailabilities/useAvaila
 import { useMergedStatesFromFetchers } from "../../hooks/useMergedStatesFromFetchers/useMergedStatesFromFetchers"
 import { Loading } from "../../commons/Loading/Loading"
 import { FlashList } from "@shopify/flash-list"
+import { useSelector } from "react-redux"
+import { currentLocationSelector } from "../../../store/main/mainReducerSelectors"
 
 export default () => {
 
@@ -33,6 +35,8 @@ export default () => {
   const { goBack } = useNavigation<SearchSuggestionsScreenProps['navigation']>()
 
   const { colors } = useTheme<Theme>()
+
+  const currentLocation = useSelector(currentLocationSelector)
 
   const searchBarRef = useRef<RNTextInput>(null)
 
@@ -48,7 +52,7 @@ export default () => {
     consultationModeFilter: ConsultationModeFilters.ALL,
     extraFeeFilter: ExtraFeeFilters.ALL,
     newPatientFilter: NewPatientFilters.ALL,
-    locality: undefined
+    locality: currentLocation
   })
 
   const { 
@@ -65,6 +69,15 @@ export default () => {
   useEffect(() => {
     console.log('availabilityFilters', availabilityFilters)
   }, [availabilityFilters])
+
+  useEffect(() => {
+    if (availabilityFilters.locality !== currentLocation) {
+      setAvailabilityFilters(state => ({
+        ...state,
+        locality: currentLocation
+      }))
+    }
+  }, [currentLocation, availabilityFilters])
 
   useEffect(() => {
     setAvailabilityFilters(value => ({

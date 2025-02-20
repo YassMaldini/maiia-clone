@@ -38,11 +38,7 @@ export default ({ item }: SearchSuggestionItemProps) => {
           return CenterImage
       }
     }
-  }, [item])
-
-  const availabilitiesVariant = useMemo(() => {
-
-  }, [])
+  }, [item]) 
 
   return (
     <Pressable
@@ -51,7 +47,25 @@ export default ({ item }: SearchSuggestionItemProps) => {
       borderColor="border"
       padding="sToStoM"
       borderRadius="s"
-      onPress={() => navigate(SearchStackScreenList.PractitionerScreen, { practitionerId: 'someId' })}
+      onPress={() => {
+        switch (item.type) {
+          case "PRACTITIONER":
+            if (item.practitioner && item.center) {
+              navigate(SearchStackScreenList.PractitionerScreen, { 
+                item,
+                practitionerId: item.practitioner.id,
+                rootCenterId: item.center.id
+              })
+            } 
+            // else if (item.practitioner) {
+            //   navigate(SearchStackScreenList.PractitionerScreen, { 
+            //     practitionerId: item.practitioner.id
+            //   })
+            // }
+          // case "CENTER":
+          //   navigate(SearchStackScreenList.PractitionerScreen, { practitionerId: 'someId' })
+        }
+      }}
     >
       <Box flexDirection="row" alignItems="center" marginBottom="s">
         <Image
@@ -76,7 +90,7 @@ export default ({ item }: SearchSuggestionItemProps) => {
 
       <Box marginBottom="s">
         <Text color="primaryDark">
-          {`${item.address.number} ${item.address.street}`}
+          {item.address.number ? `${item.address.number} ` : ''}{`${item.address.street}`}
         </Text>
         <Text color="primaryDark">
           {`${item.address.zipCode}, ${item.address.city}`}

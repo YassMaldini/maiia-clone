@@ -33,6 +33,11 @@ export const getChipColor = ({
         text: 'green',
         background: 'lightGreen'
       }
+    case ChipColors.Red:
+      return {
+        text: 'darkRed',
+        background: 'lightRed'
+      }
     default:
       return {
         text: 'primary',

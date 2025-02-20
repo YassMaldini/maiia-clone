@@ -23,4 +23,6 @@ export const PALETTE = Object.freeze({
 
   green: '#00581e',
   lightGreen: '#e1f9e9',
+  darkRed: '#8e0606',
+  lightRed: '#fde2e2',
 });

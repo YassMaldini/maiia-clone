@@ -26,4 +26,6 @@ export const LIGHT_COLORS = Object.freeze({
 
   green: colors.green,
   lightGreen: colors.lightGreen,
+  darkRed: colors.darkRed,
+  lightRed: colors.lightRed,
 });

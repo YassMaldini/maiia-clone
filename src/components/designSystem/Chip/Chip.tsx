@@ -3,7 +3,7 @@ import Text from "../Text/Text"
 import { getChipColor } from "./Chip.theme"
 import { ChipColors, ChipProps } from "./Chip.types"
 
-export default ({ label, color = ChipColors.Primary }: ChipProps) => {
+export default ({ label, color = ChipColors.Primary, textProps }: ChipProps) => {
 
   const { text, background } = getChipColor({ color })
 
@@ -14,7 +14,15 @@ export default ({ label, color = ChipColors.Primary }: ChipProps) => {
       backgroundColor={background}
       borderRadius="xs"
     >
-      <Text color={text} fontFamily="SemiBold" letterSpacing={0.1} fontSize={13}>{label}</Text>
+      <Text 
+        color={text} 
+        fontFamily="SemiBold" 
+        letterSpacing={0.1} 
+        fontSize={13}
+        {...textProps}
+      >
+        {label}
+      </Text>
     </Box>
   )
 }

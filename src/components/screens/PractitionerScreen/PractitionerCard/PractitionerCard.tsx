@@ -3,7 +3,13 @@ import { SvgIcon } from "../../../designSystem/SvgIcon/SvgIcon"
 import Text from "../../../designSystem/Text/Text"
 import { PractitionerCardProps } from "./PractitionerCard.types"
 
-export default ({ icon: Icon, title, children, ...props }: PractitionerCardProps) => {
+export default ({ 
+  icon: Icon, 
+  title, 
+  children, 
+  ...props 
+}: PractitionerCardProps) => {
+
   return (
     <Box
       flexDirection="row"

@@ -10,8 +10,12 @@ import LocationArrowIcon from "../../../../../assets/svg/location-arrow.svg"
 import { popularSearch } from "../SearchSuggestionsScreen.data";
 import { TouchableOpacity } from "react-native";
 import { SearchSuggestionsContext } from "../SearchSuggestionsScreen.context";
+import { useDispatch } from "react-redux";
+import { setCurrentLocation } from "../../../../store/main/mainActions/mainActions";
 
 export default forwardRef<BottomSheetModal>((_, ref) => {
+
+  const dispatch = useDispatch()
 
   const { setAvailabilityFilters } = useContext(SearchSuggestionsContext)
 
@@ -52,10 +56,7 @@ export default forwardRef<BottomSheetModal>((_, ref) => {
               <TouchableOpacity
                 key={index}
                 style={{ flex: 2, minWidth: '45%' }}
-                onPress={() => setAvailabilityFilters(state => ({
-                  ...state,
-                  locality: value
-                }))}
+                onPress={() => setCurrentLocation(value)(dispatch)}
               >
                 <Text>{label}</Text>
               </TouchableOpacity>

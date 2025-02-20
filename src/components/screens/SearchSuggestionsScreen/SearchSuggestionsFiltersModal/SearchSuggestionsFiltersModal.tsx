@@ -18,6 +18,8 @@ export default forwardRef<BottomSheetModal>((_, ref) => {
 
   const { availabilities, availabilityFilters, setAvailabilityFilters } = useContext(SearchSuggestionsContext)
 
+  const [isUselessSwitchEnabled, setUselessSwitchEnabled] = useState(false)
+
   return (
     <BottomModal ref={ref} snapPoints={['91%']} enableDynamicSizing>
       <ScrollView style={{ flex: 1 }}>
@@ -180,11 +182,11 @@ export default forwardRef<BottomSheetModal>((_, ref) => {
                 }}
                 value={availabilityFilters.extraFeeFilter === ExtraFeeFilters.DISALLOW}
               />
-              {/* <Switch
+              <Switch
                 label="Applique le tiers payant"
-                onValueChange={() => setAllowNewPatient(value => !value)}
-                value={allowNewPatient}
-              /> */}
+                onValueChange={() => setUselessSwitchEnabled(value => !value)}
+                value={isUselessSwitchEnabled}
+              />
             </Box>
           </Box>
         </Box>

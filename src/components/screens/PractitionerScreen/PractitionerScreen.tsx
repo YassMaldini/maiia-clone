@@ -3,7 +3,7 @@ import Box from "../../designSystem/Box/Box"
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "@shopify/restyle"
 import { Theme } from "../../../utils/theme/theme"
-import { Dimensions, Image, ScrollView } from "react-native"
+import { Dimensions, Image, Linking, ScrollView } from "react-native"
 import Text from "../../designSystem/Text/Text"
 import Button from "../../designSystem/Button/Button"
 import { ButtonSizes, ButtonVariants } from "../../designSystem/Button/Button.types"
@@ -20,17 +20,36 @@ import { ChipColors } from "../../designSystem/Chip/Chip.types"
 import Pressable from "../../designSystem/Pressable/Pressable"
 import ChevronLeftIcon from "../../../../assets/svg/chevron-left-regular.svg"
 import StarIcon from "../../../../assets/svg/star-regular.svg"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, useRoute } from "@react-navigation/native"
 import { PractitionerScreenProps } from "./PractitionerScreen.types"
 import { SvgIcon } from "../../designSystem/SvgIcon/SvgIcon"
+import { usePractitioner } from "../../api/queries/usePractitioner/usePractitioner"
+import { Loading } from "../../commons/Loading/Loading"
+import { useEffect, useMemo } from "react"
+import moment from "moment"
 
 export default () => {
 
+  const { params: { item, practitionerId, rootCenterId } } = useRoute<PractitionerScreenProps['route']>()
   const { goBack } = useNavigation<PractitionerScreenProps['navigation']>()
 
   const { top } = useSafeAreaInsets()
 
   const { colors, spacing } = useTheme<Theme>()
+
+  const { data, isLoading } = usePractitioner({ practitionerId, rootCenterId })
+
+  useEffect(() => {
+    console.log('data', data)
+  }, [data])
+
+  const practitioner = useMemo(() => {
+    if (data) {
+      return data.items[0]
+    }
+  }, [data])
+
+  if (isLoading) return <Loading />
 
   return (
     <Box flex={1}>
@@ -99,23 +118,23 @@ export default () => {
               position: 'relative'
             }}
           >
-              <Box paddingBottom="mToL">
-                <Text
-                  fontFamily="SemiBold"
-                  fontSize={20}
-                  textAlign="center"
-                  color="white"
-                >
-                  Dr. Anne Marie NAPOLI
-                </Text>
-                <Text
-                  fontSize={15}
-                  textAlign="center"
-                  color="white"
-                >
-                  Médecin généraliste
-                </Text>
-              </Box>
+            <Box paddingBottom="mToL">
+              <Text
+                fontFamily="SemiBold"
+                fontSize={20}
+                textAlign="center"
+                color="white"
+              >
+                {`${practitioner?.professional.firstName} ${practitioner?.professional.lastName}`}
+              </Text>
+              <Text
+                fontSize={15}
+                textAlign="center"
+                color="white"
+              >
+                {practitioner?.professional.speciality.name}
+              </Text>
+            </Box>
             <Box
               flexDirection="row"
               position="absolute"
@@ -145,15 +164,22 @@ export default () => {
               <Box flex={1} paddingTop="m">
 
                 <PractitionerCard icon={CalendarIcon} title="Prochaine disponibilité">
-                  <Text fontSize={16}>Le lundi 17 février 2025</Text>
+                  <Text fontSize={16}>Le {moment(item.nextAvailability).format('dddd DD MMMM Y')}</Text>
                 </PractitionerCard>
 
-                <PractitionerCard icon={StethoscopeIcon} title="Expertises">
-                  <Chip
-                    label="Consultation de médecine générale"
-                    color={ChipColors.Neutral}
-                  />
-                </PractitionerCard>
+                {(practitioner?.publicInformation.expertises && practitioner?.publicInformation.expertises.length > 0) &&
+                  <PractitionerCard icon={StethoscopeIcon} title="Expertises" >
+                    <Box flexDirection="row" flexWrap="wrap" gap="s">
+                      {practitioner?.publicInformation.expertises.map(({ name }, index) => (
+                        <Chip
+                          key={index}
+                          label={name}
+                          color={ChipColors.Neutral}
+                        />
+                      ))}
+                    </Box>
+                  </PractitionerCard>
+                }
 
                 <PractitionerCard icon={BuildingIcon} title="Accès">
                   <Box marginBottom="s">
@@ -162,22 +188,26 @@ export default () => {
                       textDecorationLine="underline"
                       marginBottom="xs"
                     >
-                      Maison de santé de Perpignan
+                      {practitioner?.center.name}
                     </Text>
                     <Text>
-                      3 rue du Mérachal Foch, 66000 Perpignan
+                      {`${practitioner?.publicInformation.address.number || ''} ${practitioner?.publicInformation.address.street}, ${practitioner?.publicInformation.address.zipCode} ${practitioner?.publicInformation.address.city}`}
                     </Text>
                   </Box>
                   <Box>
                     <Text fontFamily="SemiBold">
                       Informations Pratiques
                     </Text>
-                    <Text>
-                      Accès personnes à mobilité réduite: Oui
-                    </Text>
-                    <Text>
-                      Ascenseur: Oui
-                    </Text>
+                    {practitioner?.publicInformation.officeInformation.officeAccessibility?.hasHandicapAccess &&
+                      <Text>
+                        Accès personnes à mobilité réduite: Oui
+                      </Text>
+                    }
+                    {practitioner?.publicInformation.officeInformation.officeAccessibility?.hasElevatorAccess &&
+                      <Text>
+                        Ascenseur: Oui
+                      </Text>
+                    }
                     <Text>
                       Etage: 1
                     </Text>
@@ -186,56 +216,101 @@ export default () => {
 
                 <PractitionerCard icon={CreditCardIcon} title="Tarifs et remboursements">
                   <Box flexDirection="row" columnGap="s" marginBottom="sToStoM">
-                    {[...Array(3)].map((_, index) => (
+                    {practitioner?.publicInformation.conventionSectors.includes("AFFILIATED") &&
                       <Chip
-                        key={index}
-                        label="Carte vitale"
+                        label="Conventionné"
                         color={ChipColors.Neutral}
                       />
-                    ))}
+                    }
+                    <Chip
+                      label="Carte vitale"
+                      color={
+                        practitioner?.publicInformation.refundMethods.includes("VITAL_CARD") ?
+                          ChipColors.Neutral :
+                          ChipColors.Red
+                      }
+                      {...(!practitioner?.publicInformation.refundMethods.includes("VITAL_CARD") &&
+                      {
+                        textProps: {
+                          textDecorationLine: 'line-through'
+                        }
+                      }
+                      )}
+                    />
+                    <Chip
+                      label="Tiers payant"
+                      color={
+                        practitioner?.publicInformation.refundMethods.includes("THIRD_PARTY_PAYER") ?
+                          ChipColors.Neutral :
+                          ChipColors.Red
+                      }
+                      {...(!practitioner?.publicInformation.refundMethods.includes("THIRD_PARTY_PAYER") &&
+                        { textProps: { textDecorationLine: 'line-through' } }
+                      )}
+                    />
                   </Box>
                   <Box>
                     <Text fontSize={16} marginBottom="s">
                       Moyen de paiement
                     </Text>
                     <Box flexDirection="row" columnGap="s" marginBottom="sToStoM">
-                      {[...Array(3)].map((_, index) => (
-                        <Chip
-                          key={index}
-                          label="Carte vitale"
-                          color={ChipColors.Neutral}
-                        />
-                      ))}
+                      <Chip
+                        label="CB"
+                        color={
+                          practitioner?.publicInformation.paymentMethods.find(value => value === 'CB') ?
+                            ChipColors.Neutral :
+                            ChipColors.Red
+                        }
+                        {...(!practitioner?.publicInformation.paymentMethods.find(value => value === 'CB') &&
+                          { textProps: { textDecorationLine: 'line-through' } }
+                        )}
+                      />
+                      <Chip
+                        label="Espèce"
+                        color={
+                          practitioner?.publicInformation.paymentMethods.find(value => value === 'CASH') ?
+                            ChipColors.Neutral :
+                            ChipColors.Red
+                        }
+                        {...(!practitioner?.publicInformation.paymentMethods.find(value => value === 'CASH') &&
+                          { textProps: { textDecorationLine: 'line-through' } }
+                        )}
+                      />
+                      <Chip
+                        label="Chèques"
+                        color={
+                          practitioner?.publicInformation.paymentMethods.find(value => value === 'CHECK') ?
+                            ChipColors.Neutral :
+                            ChipColors.Red
+                        }
+                        {...(!practitioner?.publicInformation.paymentMethods.find(value => value === 'CHECK') &&
+                          { textProps: { textDecorationLine: 'line-through' } }
+                        )}
+                      />
                     </Box>
                   </Box>
-                  <Box>
-                    <Text fontSize={16} marginBottom="s">
-                      Tarif par acte
-                    </Text>
-                    <Box flexDirection="row" justifyContent="space-between" marginBottom="s">
-                      <Text flex={1}>consultation enfant de 0 à 6 ans</Text>
-                      <Text fontFamily="SemiBold">35€</Text>
+                  {(practitioner?.publicInformation.pricing && practitioner?.publicInformation.pricing.length > 0) &&
+                    <Box>
+                      <Text fontSize={16} marginBottom="s">
+                        Tarif par acte
+                      </Text>
+                      <Box>
+                        {practitioner?.publicInformation.pricing.map(({ label, price }, index) => (
+                          <Box key={index} flexDirection="row" justifyContent="space-between" marginBottom="s">
+                            <Text flex={1}>{label}</Text>
+                            <Text fontFamily="SemiBold">{price}€</Text>
+                          </Box>
+                        ))}
+                      </Box>
                     </Box>
-                    <Box flexDirection="row" justifyContent="space-between" marginBottom="s">
-                      <Text flex={1}>consultation enfant de plus de 6 ans</Text>
-                      <Text fontFamily="SemiBold">35€</Text>
-                    </Box>
-                    <Box flexDirection="row" justifyContent="space-between" marginBottom="s">
-                      <Text flex={1}>consultation adultes</Text>
-                      <Text fontFamily="SemiBold">35€</Text>
-                    </Box>
-                    <Box flexDirection="row" justifyContent="space-between" marginBottom="s">
-                      <Text flex={1}>visite à domicile</Text>
-                      <Text fontFamily="SemiBold">35€</Text>
-                    </Box>
-                  </Box>
+                  }
                 </PractitionerCard>
 
-                <PractitionerCard icon={InfoIcon} title="Informations">
-                  <Text>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero a, similique officiis assumenda dolores distinctio nostrum ad asperiores ratione accusantium reprehenderit veritatis cumque, quos numquam nihil fugit ut accusamus pariatur.
-                  </Text>
-                </PractitionerCard>
+                {practitioner?.publicInformation.officeDescription &&
+                  <PractitionerCard icon={InfoIcon} title="Informations">
+                    <Text>{practitioner?.publicInformation.officeDescription}</Text>
+                  </PractitionerCard>
+                }
 
                 <PractitionerCard icon={ClockIcon} title="Horaires de contact" marginBottom="none" paddingBottom="none">
                   <Box marginBottom="sToM">
@@ -243,38 +318,41 @@ export default () => {
                       Horaires d'ouverture
                     </Text>
                     <Box marginBottom="sToM">
-                      <Box flexDirection="row" justifyContent="space-between" marginBottom="xs">
-                        <Text flex={1}>Lundi</Text>
-                        <Text>08:00 - 19:00</Text>
-                      </Box>
-                      <Box flexDirection="row" justifyContent="space-between" marginBottom="xs">
-                        <Text flex={1}>Mardi</Text>
-                        <Text>08:00 - 19:00</Text>
-                      </Box>
-                      <Box flexDirection="row" justifyContent="space-between" marginBottom="xs">
-                        <Text flex={1}>Mercredi</Text>
-                        <Text>08:00 - 19:00</Text>
-                      </Box>
-                      <Box flexDirection="row" justifyContent="space-between" marginBottom="xs">
-                        <Text flex={1}>Jeudi</Text>
-                        <Text>08:00 - 19:00</Text>
-                      </Box>
-                      <Box flexDirection="row" justifyContent="space-between" marginBottom="xs">
-                        <Text flex={1}>Vendredi</Text>
-                        <Text>08:00 - 19:00</Text>
-                      </Box>
-                      <Box flexDirection="row" justifyContent="space-between" marginBottom="xs">
-                        <Text flex={1}>Samedi</Text>
-                        <Text>08:00 - 19:00</Text>
-                      </Box>
+                      {[...Array(7)].map((_, index) => {
+                        const formattedDay = moment().locale('en').isoWeekday(index + 1).format('dddd').toUpperCase()
+                        if (practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].isActive) {
+                          return (
+                            <Box key={index} flexDirection="row" justifyContent="space-between" marginBottom="s">
+                              <Text flex={1}>{moment().isoWeekday(index + 1).format('dddd')}</Text>
+                              {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 0) &&
+                                <Text>
+                                  {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 0)?.startTime}
+                                  {' - '}
+                                  {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 0)?.endTime}
+                                </Text>
+                              }
+                              {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 1) &&
+                                <Text>
+                                  {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 0) && ' / ' }
+                                  {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 1)?.startTime}
+                                  {' - '}
+                                  {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 1)?.endTime}
+                                </Text>
+                              }
+                            </Box>
+                          )
+                        }
+                      })}
                     </Box>
                     <Box>
                       <Text fontFamily="SemiBold" marginBottom="xs">
                         Numéro de téléphone
                       </Text>
-                      <Pressable>
+                      <Pressable 
+                        onPress={async () => await Linking.openURL(`tel:${practitioner?.publicInformation.officeInformation.phoneNumber}`)}
+                      >
                         <Text fontFamily="SemiBold" color="primaryGradientEnd" textDecorationLine="underline">
-                          04 68 51 50 23
+                          {practitioner?.publicInformation.officeInformation.phoneNumber}
                         </Text>
                       </Pressable>
                     </Box>
