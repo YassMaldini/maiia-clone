@@ -3,7 +3,7 @@ import Box from "../../designSystem/Box/Box"
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { useTheme } from "@shopify/restyle"
 import { Theme } from "../../../utils/theme/theme"
-import { Dimensions, Image, Linking, ScrollView } from "react-native"
+import { Dimensions, Image, Linking, ScrollView, View } from "react-native"
 import Text from "../../designSystem/Text/Text"
 import Button from "../../designSystem/Button/Button"
 import { ButtonSizes, ButtonVariants } from "../../designSystem/Button/Button.types"
@@ -25,9 +25,11 @@ import { PractitionerScreenProps } from "./PractitionerScreen.types"
 import { SvgIcon } from "../../designSystem/SvgIcon/SvgIcon"
 import { usePractitioner } from "../../api/queries/usePractitioner/usePractitioner"
 import { Loading } from "../../commons/Loading/Loading"
-import { useContext, useEffect, useMemo } from "react"
+import { Fragment, useContext, useEffect, useMemo } from "react"
 import moment from "moment"
 import { RootContext } from "../../navigation/RootStack/RootStack.context"
+import PratImage from "../../../../assets/images/img_prat.png"
+import CenterImage from "../../../../assets/images/img_center.png"
 
 export default () => {
 
@@ -52,6 +54,19 @@ export default () => {
     }
   }, [data])
 
+  const displayImage = useMemo(() => {
+    if (practitioner?.publicInformation.mainPicture) {
+      return { uri: `https://api-pat.staging.maiia.com/pat-public/files/${practitioner?.publicInformation.mainPicture.thumbnailS3Id}` }
+    } else {
+      switch (item.type) {
+        case "PRACTITIONER":
+          return PratImage
+        case "CENTER":
+          return CenterImage
+      }
+    }
+  }, [practitioner])
+
   if (isLoading) return <Loading />
 
   return (
@@ -73,7 +88,7 @@ export default () => {
         position="absolute"
         top={top + spacing.sToM}
         left={spacing.m}
-        zIndex={9}
+        zIndex={8}
       >
         <Pressable onPress={goBack}>
           <SvgIcon
@@ -88,7 +103,7 @@ export default () => {
         position="absolute"
         top={top + spacing.sToM}
         right={spacing.m}
-        zIndex={9}
+        zIndex={8}
       >
         <Pressable onPress={openNotConnectedModal}>
           <SvgIcon
@@ -104,41 +119,41 @@ export default () => {
         <ScrollView
           style={{ flex: 1 }}
           stickyHeaderIndices={[1]}
+          showsVerticalScrollIndicator={false}
           nestedScrollEnabled
         >
           <Box alignItems="center" paddingVertical="sToM">
             <Image
-              source={{ uri: 'https://api-pat.maiia.com/pat-public/files/8358ff47-c796-4ab7-9cfe-fdac1345fe26-pharmacie-sainte-anne-lyon.png' }}
+              source={displayImage}
               width={94}
               height={94}
               borderRadius={50}
             />
           </Box>
-          <LinearGradient
-            colors={[colors.primaryGradientStart, colors.primaryGradientEnd]}
-            start={{ x: 0.0, y: 1.0 }}
-            end={{ x: 1.0, y: 1.0 }}
-            style={{
-              position: 'relative'
-            }}
-          >
-            <Box paddingBottom="mToL">
-              <Text
-                fontFamily="SemiBold"
-                fontSize={20}
-                textAlign="center"
-                color="white"
-              >
-                {`${practitioner?.professional.firstName} ${practitioner?.professional.lastName}`}
-              </Text>
-              <Text
-                fontSize={15}
-                textAlign="center"
-                color="white"
-              >
-                {practitioner?.professional.speciality.name}
-              </Text>
-            </Box>
+          <Box>
+            <LinearGradient
+              colors={[colors.primaryGradientStart, colors.primaryGradientEnd]}
+              start={{ x: 0.0, y: 1.0 }}
+              end={{ x: 1.0, y: 1.0 }}
+            >
+              <Box paddingBottom="mToL">
+                <Text
+                  fontFamily="SemiBold"
+                  fontSize={20}
+                  textAlign="center"
+                  color="white"
+                >
+                  {`${practitioner?.professional.firstName} ${practitioner?.professional.lastName}`}
+                </Text>
+                <Text
+                  fontSize={15}
+                  textAlign="center"
+                  color="white"
+                >
+                  {practitioner?.professional.speciality.name}
+                </Text>
+              </Box>
+            </LinearGradient>
             <Box
               flexDirection="row"
               position="absolute"
@@ -154,9 +169,13 @@ export default () => {
                 size={ButtonSizes.Large}
                 height={56}
                 onPress={openNotConnectedModal}
+                style={{
+                  zIndex: 10,
+                  elevation: 10
+                }}
               />
             </Box>
-          </LinearGradient>
+          </Box>
           <Box
             flex={1}
             backgroundColor="background"
@@ -221,79 +240,83 @@ export default () => {
 
                 <PractitionerCard icon={CreditCardIcon} title="Tarifs et remboursements">
                   <Box flexDirection="row" columnGap="s" marginBottom="sToStoM">
-                    {practitioner?.publicInformation.conventionSectors.includes("AFFILIATED") &&
+                    {practitioner?.publicInformation.conventionSectors?.includes("AFFILIATED") &&
                       <Chip
                         label="Conventionné"
                         color={ChipColors.Neutral}
                       />
                     }
-                    <Chip
-                      label="Carte vitale"
-                      color={
-                        practitioner?.publicInformation.refundMethods.includes("VITAL_CARD") ?
-                          ChipColors.Neutral :
-                          ChipColors.Red
-                      }
-                      {...(!practitioner?.publicInformation.refundMethods.includes("VITAL_CARD") &&
-                      {
-                        textProps: {
-                          textDecorationLine: 'line-through'
+                    {practitioner?.publicInformation.refundMethods && <Fragment>
+                      <Chip
+                        label="Carte vitale"
+                        color={
+                          practitioner?.publicInformation.refundMethods.includes("VITAL_CARD") ?
+                            ChipColors.Neutral :
+                            ChipColors.Red
                         }
-                      }
-                      )}
-                    />
-                    <Chip
-                      label="Tiers payant"
-                      color={
-                        practitioner?.publicInformation.refundMethods.includes("THIRD_PARTY_PAYER") ?
-                          ChipColors.Neutral :
-                          ChipColors.Red
-                      }
-                      {...(!practitioner?.publicInformation.refundMethods.includes("THIRD_PARTY_PAYER") &&
-                        { textProps: { textDecorationLine: 'line-through' } }
-                      )}
-                    />
+                        {...(!practitioner?.publicInformation.refundMethods.includes("VITAL_CARD") &&
+                        {
+                          textProps: {
+                            textDecorationLine: 'line-through'
+                          }
+                        }
+                        )}
+                      />
+                      <Chip
+                        label="Tiers payant"
+                        color={
+                          practitioner?.publicInformation.refundMethods.includes("THIRD_PARTY_PAYER") ?
+                            ChipColors.Neutral :
+                            ChipColors.Red
+                        }
+                        {...(!practitioner?.publicInformation.refundMethods.includes("THIRD_PARTY_PAYER") &&
+                          { textProps: { textDecorationLine: 'line-through' } }
+                        )}
+                      />
+                    </Fragment>}
                   </Box>
-                  <Box>
-                    <Text fontSize={16} marginBottom="s">
-                      Moyen de paiement
-                    </Text>
-                    <Box flexDirection="row" columnGap="s" marginBottom="sToStoM">
-                      <Chip
-                        label="CB"
-                        color={
-                          practitioner?.publicInformation.paymentMethods.find(value => value === 'CB') ?
-                            ChipColors.Neutral :
-                            ChipColors.Red
-                        }
-                        {...(!practitioner?.publicInformation.paymentMethods.find(value => value === 'CB') &&
-                          { textProps: { textDecorationLine: 'line-through' } }
-                        )}
-                      />
-                      <Chip
-                        label="Espèce"
-                        color={
-                          practitioner?.publicInformation.paymentMethods.find(value => value === 'CASH') ?
-                            ChipColors.Neutral :
-                            ChipColors.Red
-                        }
-                        {...(!practitioner?.publicInformation.paymentMethods.find(value => value === 'CASH') &&
-                          { textProps: { textDecorationLine: 'line-through' } }
-                        )}
-                      />
-                      <Chip
-                        label="Chèques"
-                        color={
-                          practitioner?.publicInformation.paymentMethods.find(value => value === 'CHECK') ?
-                            ChipColors.Neutral :
-                            ChipColors.Red
-                        }
-                        {...(!practitioner?.publicInformation.paymentMethods.find(value => value === 'CHECK') &&
-                          { textProps: { textDecorationLine: 'line-through' } }
-                        )}
-                      />
+                  {practitioner?.publicInformation.paymentMethods &&
+                    <Box>
+                      <Text fontSize={16} marginBottom="s">
+                        Moyen de paiement
+                      </Text>
+                      <Box flexDirection="row" columnGap="s" marginBottom="sToStoM">
+                        <Chip
+                          label="CB"
+                          color={
+                            practitioner?.publicInformation.paymentMethods.find(value => value === 'CB') ?
+                              ChipColors.Neutral :
+                              ChipColors.Red
+                          }
+                          {...(!practitioner?.publicInformation.paymentMethods.find(value => value === 'CB') &&
+                            { textProps: { textDecorationLine: 'line-through' } }
+                          )}
+                        />
+                        <Chip
+                          label="Espèce"
+                          color={
+                            practitioner?.publicInformation.paymentMethods.find(value => value === 'CASH') ?
+                              ChipColors.Neutral :
+                              ChipColors.Red
+                          }
+                          {...(!practitioner?.publicInformation.paymentMethods.find(value => value === 'CASH') &&
+                            { textProps: { textDecorationLine: 'line-through' } }
+                          )}
+                        />
+                        <Chip
+                          label="Chèques"
+                          color={
+                            practitioner?.publicInformation.paymentMethods.find(value => value === 'CHECK') ?
+                              ChipColors.Neutral :
+                              ChipColors.Red
+                          }
+                          {...(!practitioner?.publicInformation.paymentMethods.find(value => value === 'CHECK') &&
+                            { textProps: { textDecorationLine: 'line-through' } }
+                          )}
+                        />
+                      </Box>
                     </Box>
-                  </Box>
+                  }
                   {(practitioner?.publicInformation.pricing && practitioner?.publicInformation.pricing.length > 0) &&
                     <Box>
                       <Text fontSize={16} marginBottom="s">
@@ -338,7 +361,7 @@ export default () => {
                               }
                               {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 1) &&
                                 <Text>
-                                  {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 0) && ' / ' }
+                                  {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 0) && ' / '}
                                   {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 1)?.startTime}
                                   {' - '}
                                   {practitioner?.publicInformation.officeInformation.openingSchedules[formattedDay].schedules.find(({ position }) => position === 1)?.endTime}
@@ -353,7 +376,7 @@ export default () => {
                       <Text fontFamily="SemiBold" marginBottom="xs">
                         Numéro de téléphone
                       </Text>
-                      <Pressable 
+                      <Pressable
                         onPress={async () => await Linking.openURL(`tel:${practitioner?.publicInformation.officeInformation.phoneNumber}`)}
                       >
                         <Text fontFamily="SemiBold" color="primaryGradientEnd" textDecorationLine="underline">

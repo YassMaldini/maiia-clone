@@ -38,6 +38,9 @@
           ]
         }
       ]
-    ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.yass66s.maiiaclone"
+    }
   }
 }

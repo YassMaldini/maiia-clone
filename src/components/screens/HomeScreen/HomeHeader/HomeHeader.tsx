@@ -10,7 +10,6 @@ import SearchIcon from "../../../../../assets/svg/magnifying-glass-regular.svg"
 import TextInput from "../../../designSystem/TextInput/TextInput"
 import { useNavigation } from "@react-navigation/native"
 import { RootStackList } from "../../../navigation/RootStack/RootStack.types"
-import { SearchStackScreenList } from "../../../navigation/SearchStack/SearchStack.types"
 import Pressable from "../../../designSystem/Pressable/Pressable"
 import { Dimensions } from "react-native"
 
@@ -59,7 +58,7 @@ export default () => {
           height={calculateHeight(LOGO_WIDTH, '250:83')}
           marginBottom="sToM"
         />
-        <Text 
+        <Text
           fontFamily="SemiBold"
           fontSize={20}
           color="white"
@@ -68,21 +67,15 @@ export default () => {
         >
           Rendez-vous et téléconsultation avec vos professionnels de santé
         </Text>
-        <Pressable 
-          width={Dimensions.get('screen').width} 
-          paddingHorizontal="m"
-          onPress={() => {
-            console.log('asqqq')
-            // @ts-ignore
-            navigate(RootStackList.SearchStack)
-          }}
-        >
-        <TextInput 
+        <TextInput
           startIcon={SearchIcon}
           placeholder="Practicien, spécialté, établissement..."
           editable={false}
+          onPress={() => {
+            // @ts-ignore
+            navigate(RootStackList.SearchStack)
+          }}
         />
-        </Pressable>
       </Box>
     </Box>
   )

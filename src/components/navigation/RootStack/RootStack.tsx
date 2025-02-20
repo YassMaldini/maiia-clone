@@ -58,8 +58,7 @@ export default () => {
             borderTopWidth: 1,
             borderTopColor: '#fff',
             backgroundColor: theme.colors.background,
-            paddingVertical: theme.spacing.s,
-            height: 60
+            paddingVertical: theme.spacing.s
           },
         }}
       >
