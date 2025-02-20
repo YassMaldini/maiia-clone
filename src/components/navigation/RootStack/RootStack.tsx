@@ -8,14 +8,21 @@ import Box from '../../designSystem/Box/Box';
 import { SvgIcon } from '../../designSystem/SvgIcon/SvgIcon';
 import { useTheme } from '@shopify/restyle';
 import { Theme } from '../../../utils/theme/theme';
+import { RootStackList } from './RootStack.types';
+import NotConnectedBottomModal from './NotConnectedBottomModal/NotConnectedBottomModal';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import TLCStack from '../TLCStack/TLCStack';
+import SettingsStack from '../SettingsStack/SettingsStack';
 
 import HouseRegularIcon from "../../../../assets/svg/house-regular.svg"
 import HouseSolidIcon from "../../../../assets/svg/house-solid.svg"
 import SearchRegularIcon from "../../../../assets/svg/magnifying-glass-regular.svg"
 import SearchSolidIcon from "../../../../assets/svg/magnifying-glass-solid.svg"
-import { RootStackList } from './RootStack.types';
-import NotConnectedBottomModal from './NotConnectedBottomModal/NotConnectedBottomModal';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import VideoRegularIcon from "../../../../assets/svg/video-regular.svg"
+import VideoSolidIcon from "../../../../assets/svg/video-solid.svg"
+import GearRegularIcon from "../../../../assets/svg/gear-regular.svg"
+import GearSolidIcon from "../../../../assets/svg/gear-solid.svg"
+import Text from '../../designSystem/Text/Text';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -51,8 +58,8 @@ export default () => {
             borderTopWidth: 1,
             borderTopColor: '#fff',
             backgroundColor: theme.colors.background,
-            paddingHorizontal: theme.spacing.mToL,
-            paddingVertical: theme.spacing.s
+            paddingVertical: theme.spacing.s,
+            height: 60
           },
         }}
       >
@@ -60,8 +67,14 @@ export default () => {
           name={RootStackList.HomeStack}
           component={HomeStack}
           options={{
-            tabBarLabel: 'Accueil',
             tabBarShowLabel: true,
+            tabBarLabel: ({ focused }) => (
+              <Text
+                color={focused ? 'primary' : 'textPrimary'}
+              >
+                Accueil
+              </Text>
+            ),
             tabBarIcon: ({ focused }) => (
               <Box
                 paddingVertical="xs"
@@ -82,8 +95,14 @@ export default () => {
           name={RootStackList.SearchStack}
           component={SearchStack}
           options={{
-            tabBarLabel: 'Rechercher',
             tabBarShowLabel: true,
+            tabBarLabel: ({ focused }) => (
+              <Text
+                color={focused ? 'primary' : 'textPrimary'}
+              >
+                Rechercher
+              </Text>
+            ),
             tabBarIcon: ({ focused }) => (
               <Box
                 paddingVertical="xs"
@@ -94,6 +113,62 @@ export default () => {
                   width={iconSize}
                   height={iconSize}
                   icon={focused ? SearchSolidIcon : SearchRegularIcon}
+                  color={iconColor(focused)}
+                />
+              </Box>
+            )
+          }}
+        />
+        <Screen
+          name={RootStackList.TLCStack}
+          component={TLCStack}
+          options={{
+            tabBarShowLabel: true,
+            tabBarLabel: ({ focused }) => (
+              <Text
+                color={focused ? 'primary' : 'textPrimary'}
+              >
+                TLC
+              </Text>
+            ),
+            tabBarIcon: ({ focused }) => (
+              <Box
+                paddingVertical="xs"
+                paddingHorizontal="sToM"
+                borderRadius="m"
+              >
+                <SvgIcon
+                  width={iconSize}
+                  height={iconSize}
+                  icon={focused ? VideoSolidIcon : VideoRegularIcon}
+                  color={iconColor(focused)}
+                />
+              </Box>
+            )
+          }}
+        />
+        <Screen
+          name={RootStackList.SettingsStack}
+          component={SettingsStack}
+          options={{
+            tabBarShowLabel: true,
+            tabBarLabel: ({ focused }) => (
+              <Text
+                color={focused ? 'primary' : 'textPrimary'}
+              >
+                Paramètres
+              </Text>
+            ),
+            tabBarIcon: ({ focused }) => (
+              <Box
+                paddingVertical="xs"
+                paddingHorizontal="sToM"
+                borderRadius="m"
+              >
+                <SvgIcon
+                  width={iconSize}
+                  height={iconSize}
+                  icon={focused ? GearSolidIcon : GearRegularIcon}
                   color={iconColor(focused)}
                 />
               </Box>

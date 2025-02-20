@@ -1,10 +1,11 @@
 import { createTheme } from '@shopify/restyle';
 import { LIGHT_COLORS } from './colors/light';
 import { borderRadii, breakpoints, spacing, textVariants } from './theme.data';
+import { DARK_COLORS } from './colors/dark';
 
-const getTheme = () =>
+const getTheme = (darkMode?: boolean) =>
   createTheme({
-    colors: LIGHT_COLORS,
+    colors: darkMode ? DARK_COLORS : LIGHT_COLORS,
     spacing,
     borderRadii,
     breakpoints,

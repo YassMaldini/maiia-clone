@@ -13,12 +13,12 @@ import MedicationImage from "../../../../assets/svg/medication.svg"
 
 export default () => {
 
-  const { spacing } = useTheme<Theme>()
+  const { colors, spacing } = useTheme<Theme>()
 
   const CARD_IMAGE_SIZE = 120
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: colors.background }}>
       <Box flex={1}>
         <HomeHeader />
 

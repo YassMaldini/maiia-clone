@@ -16,6 +16,7 @@ export default ({
       padding="sToStoM"
       borderWidth={1}
       borderColor="border"
+      backgroundColor="surface"
       borderRadius="m"
       columnGap="sToStoM"
       marginBottom="sToStoM"

@@ -9,10 +9,15 @@ import { Loading } from "../commons/Loading/Loading";
 import Box from "../designSystem/Box/Box";
 import RootStack from "./RootStack/RootStack";
 import { StatusBar } from "expo-status-bar";
+import { useSelector } from "react-redux";
+import { darkModeSelector } from "../../store/main/mainReducerSelectors";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default () => {
 
-  const theme = useMemo(() => getTheme(), []);
+  const isDarkMode = useSelector(darkModeSelector);
+
+  const theme = useMemo(() => getTheme(isDarkMode), [isDarkMode]);
 
   const navigationTheme = useMemo(() => {
     return {
@@ -46,11 +51,13 @@ export default () => {
       <StatusBar backgroundColor="transparent" translucent />
       <ThemeProvider {...{ theme }}>
         <BottomSheetModalProvider>
-          <Box
-            flex={1}
-            onLayout={onLayoutRootView}>
-            <RootStack />
-          </Box>
+          <SafeAreaProvider style={{ backgroundColor: theme.colors.background }}>
+            <Box
+              flex={1}
+              onLayout={onLayoutRootView}>
+              <RootStack />
+            </Box>
+          </SafeAreaProvider>
         </BottomSheetModalProvider>
       </ThemeProvider>
     </NavigationContainer>

@@ -10,7 +10,7 @@ export const LIGHT_COLORS = Object.freeze({
   secondaryLight: colors.secondaryLight,
   accent: colors.accent,
   background: colors.background,
-  surface: colors.surface,
+  surface: colors.background,
   error: colors.error,
   success: colors.success,
   warning: colors.warning,

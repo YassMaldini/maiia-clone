@@ -14,6 +14,7 @@ export default ({
       borderWidth={1}
       borderColor="border"
       borderRadius="s"
+      backgroundColor="surface"
       paddingVertical="s"
       paddingHorizontal="xxs"
       alignItems="center"

@@ -61,7 +61,7 @@ const TextInput = forwardRef<RNTextInput, TextInputprops>(({ startIcon, endIcon,
       borderRadius="xxl"
       flexDirection="row"
       alignItems="center"
-      backgroundColor="background"
+      backgroundColor="surface"
       borderWidth={0.5}
       borderColor="border"
       {...boxProps}
