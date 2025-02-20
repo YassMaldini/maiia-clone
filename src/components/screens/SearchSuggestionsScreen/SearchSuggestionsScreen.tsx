@@ -104,7 +104,7 @@ export default () => {
 
   return (
     <SearchSuggestionsContext.Provider value={contextValue}>
-      <Box flex={1}>
+      <Box flex={1} backgroundColor="background">
         <LinearGradient
           colors={[colors.primaryGradientStart, colors.primaryGradientEnd]}
           start={{ x: 0.0, y: 1.0 }}

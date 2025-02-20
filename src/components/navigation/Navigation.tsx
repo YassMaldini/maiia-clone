@@ -51,10 +51,12 @@ export default () => {
       <StatusBar backgroundColor="transparent" translucent />
       <ThemeProvider {...{ theme }}>
         <BottomSheetModalProvider>
-          <SafeAreaProvider style={{ backgroundColor: theme.colors.background }}>
+          <SafeAreaProvider>
             <Box
               flex={1}
-              onLayout={onLayoutRootView}>
+              onLayout={onLayoutRootView}
+              backgroundColor="background"
+            >
               <RootStack />
             </Box>
           </SafeAreaProvider>
