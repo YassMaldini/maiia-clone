@@ -1,6 +1,11 @@
 export interface RootContextProps {}
 
 export type RootStackParamsList = {
-  HomeStack: undefined;
-  SearchStack: undefined;
+  [RootStackList.HomeStack]: undefined;
+  [RootStackList.SearchStack]: undefined;
+};
+
+export enum RootStackList {
+  HomeStack = 'HomeStack',
+  SearchStack = 'SearchStack',
 }

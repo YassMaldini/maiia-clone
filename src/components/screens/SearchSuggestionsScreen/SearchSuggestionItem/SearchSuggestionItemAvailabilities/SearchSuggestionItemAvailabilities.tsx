@@ -1,15 +1,14 @@
 import { useCallback } from "react";
 import Box from "../../../../designSystem/Box/Box";
-import { SearchSuggestionItemAvailabilitiesProps } from "./SearchSuggestionItemAvailabilities.types";
-import { SearchSuggestionItemVariants } from "../SearchSuggestionItem.types";
+import { SearchSuggestionItemAvailabilitiesProps, SearchSuggestionItemAvailabilitiesVariants } from "./SearchSuggestionItemAvailabilities.types";
 import Text from "../../../../designSystem/Text/Text";
 import moment from "moment";
 
-export default ({ variant }: SearchSuggestionItemAvailabilitiesProps) => {
+export default ({ availabilities, variant }: SearchSuggestionItemAvailabilitiesProps) => {
 
   const Content = useCallback(() => {
     switch (variant) {
-      case SearchSuggestionItemVariants.FollowingDays:
+      case SearchSuggestionItemAvailabilitiesVariants.FollowingDays:
         return (
           <Box 
             flexDirection="row" 
@@ -25,7 +24,7 @@ export default ({ variant }: SearchSuggestionItemAvailabilitiesProps) => {
                 <Text fontSize={13}>Jusqu'à</Text>
               </Box>
             </Box>
-            {[...(Array(3))].map((_, index) => (
+            {availabilities?.map(({ firstAvailability, lastAvailability }, index) => (
               <Box 
                 key={index} 
                 flex={1} 
@@ -35,8 +34,8 @@ export default ({ variant }: SearchSuggestionItemAvailabilitiesProps) => {
                 }}
               >
                 <Box alignItems="center">
-                  <Text fontFamily="SemiBold">{moment().add(index, 'days').format('ddd')}</Text>
-                  <Text>{moment().add(index, 'days').format('DD/MM')}</Text>
+                  <Text fontFamily="SemiBold">{moment(firstAvailability).format('ddd')}</Text>
+                  <Text>{moment(firstAvailability).format('DD/MM')}</Text>
                 </Box>
                 <Box
                   backgroundColor="primaryLight"
@@ -44,7 +43,9 @@ export default ({ variant }: SearchSuggestionItemAvailabilitiesProps) => {
                   alignItems="center"
                   borderRadius="m"
                 >
-                  <Text fontFamily="SemiBold">-</Text>
+                  <Text fontFamily="SemiBold">
+                    {firstAvailability ? moment(firstAvailability).format('HH:mm') : '-'}
+                  </Text>
                 </Box>
                 <Box
                   backgroundColor="primaryLight"
@@ -52,13 +53,15 @@ export default ({ variant }: SearchSuggestionItemAvailabilitiesProps) => {
                   alignItems="center"
                   borderRadius="m"
                 >
-                  <Text fontFamily="SemiBold">15:45</Text>
+                  <Text fontFamily="SemiBold">
+                    {lastAvailability ? moment(lastAvailability).format('HH:mm') : '-'}
+                  </Text>
                 </Box>
               </Box>
             ))}
           </Box>
         )
-      case SearchSuggestionItemVariants.Shortly:
+      case SearchSuggestionItemAvailabilitiesVariants.Shortly:
         return (
           <Box 
             justifyContent="center" 
@@ -73,7 +76,7 @@ export default ({ variant }: SearchSuggestionItemAvailabilitiesProps) => {
             <Text fontFamily="SemiBold" fontSize={16}>lundi 24 févr.</Text>
           </Box>
         )
-      case SearchSuggestionItemVariants.NotAvailable:
+      case SearchSuggestionItemAvailabilitiesVariants.NotAvailable:
         return (
           <Box
             justifyContent="center" 

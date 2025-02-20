@@ -1,6 +1,6 @@
-import { Image } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import Box from "../../../designSystem/Box/Box";
-import { SearchSuggestionItemProps, SearchSuggestionItemVariants } from "./SearchSuggestionItem.types";
+import { SearchSuggestionItemProps } from "./SearchSuggestionItem.types";
 import Pressable from "../../../designSystem/Pressable/Pressable";
 import Text from "../../../designSystem/Text/Text";
 import Chip from "../../../designSystem/Chip/Chip";
@@ -9,13 +9,43 @@ import SearchSuggestionItemAvailabilities from "./SearchSuggestionItemAvailabili
 import { useNavigation } from "@react-navigation/native";
 import { SearchSuggestionsScreenProps } from "../SearchSuggestionsScreen.types";
 import { SearchStackScreenList } from "../../../navigation/SearchStack/SearchStack.types";
+import { SearchSuggestionItemAvailabilitiesVariants } from "./SearchSuggestionItemAvailabilities/SearchSuggestionItemAvailabilities.types";
+import { useMemo } from "react";
+import PratImage from "../../../../../assets/images/img_prat.png"
+import CenterImage from "../../../../../assets/images/img_center.png"
 
-export default ({ variant }: SearchSuggestionItemProps) => {
+export default ({ item }: SearchSuggestionItemProps) => {
 
   const { navigate } = useNavigation<SearchSuggestionsScreenProps['navigation']>()
 
+  const displayName = useMemo(() => {
+    switch (item.type) {
+      case "PRACTITIONER":
+        return item.practitioner?.fullName
+      case "CENTER":
+        return item.center?.name
+    }
+  }, [item])
+
+  const displayImage = useMemo(() => {
+    if (item.avatarPicture) {
+      return { uri: `https://api-pat.staging.maiia.com/pat-public/files/${item.avatarPicture?.thumbnailS3Id}` }
+    } else {
+      switch (item.type) {
+        case "PRACTITIONER":
+          return PratImage
+        case "CENTER":
+          return CenterImage
+      }
+    }
+  }, [item])
+
+  const availabilitiesVariant = useMemo(() => {
+
+  }, [])
+
   return (
-    <Pressable 
+    <Pressable
       marginBottom="sToM"
       borderWidth={1}
       borderColor="border"
@@ -25,48 +55,59 @@ export default ({ variant }: SearchSuggestionItemProps) => {
     >
       <Box flexDirection="row" alignItems="center" marginBottom="s">
         <Image
-          source={{ uri: 'https://api-pat.maiia.com/pat-public/files/8358ff47-c796-4ab7-9cfe-fdac1345fe26-pharmacie-sainte-anne-lyon.png' }} 
+          source={displayImage}
           width={32}
           height={32}
           borderRadius={16}
+          style={{
+            width: 32,
+            height: 32
+          }}
         />
         <Box marginLeft="s">
           <Text fontFamily="SemiBold" fontSize={15}>
-            Dr. Anne Marie NAPOLI
+            {displayName}
           </Text>
           <Text lineHeight={18}>
-            Médecin généraliste
+            {item.speciality}
           </Text>
         </Box>
       </Box>
 
       <Box marginBottom="s">
         <Text color="primaryDark">
-          3 rue du Maréchal Foch
+          {`${item.address.number} ${item.address.street}`}
         </Text>
         <Text color="primaryDark">
-          66000, Perpignan
+          {`${item.address.zipCode}, ${item.address.city}`}
         </Text>
       </Box>
 
-      <Chip label="Conventionné secteur 1" color={ChipColors.Green} />
+      {item.sectors?.includes("SECTOR1_DP_OPTAM") &&
+        <Chip label="Conventionné secteur 1" color={ChipColors.Green} />
+      }
 
-      <SearchSuggestionItemAvailabilities {...{ variant }} />
+      <SearchSuggestionItemAvailabilities
+        availabilities={item.availabilities}
+        variant={SearchSuggestionItemAvailabilitiesVariants.FollowingDays}
+      />
 
-      <Pressable
-        padding="s"
-        borderWidth={1}
-        borderColor="border"
-        marginTop="sToStoM"
-        borderRadius="s"
-      >
-        <Text
-          textAlign="center"
-          fontFamily="SemiBold"
+      <TouchableOpacity>
+        <Box
+          padding="s"
+          borderWidth={1}
+          borderColor="border"
+          marginTop="sToStoM"
+          borderRadius="s"
         >
-          Voir plus
-        </Text>
-      </Pressable>
+          <Text
+            textAlign="center"
+            fontFamily="SemiBold"
+          >
+            Voir plus
+          </Text>
+        </Box>
+      </TouchableOpacity>
     </Pressable>
   )
 }

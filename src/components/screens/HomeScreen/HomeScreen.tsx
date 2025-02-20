@@ -18,46 +18,68 @@ export default () => {
   const CARD_IMAGE_SIZE = 120
 
   return (
-    <Box flex={1}>
-      <HomeHeader />
+    <ScrollView style={{ flex: 1 }}>
+      <Box flex={1}>
+        <HomeHeader />
 
-      <Box paddingVertical="mToL" paddingHorizontal="sToM">
-        <Box marginBottom="sToM">
-          <Text variant="label">
-            Avec l'application Maiia
-          </Text>
-          <ScrollView
-            style={{
-              paddingHorizontal: spacing.s
-            }}
-            horizontal
-          >
-            <Card
-              image={
-                <SvgIcon
-                  icon={TLCImage}
-                  width={CARD_IMAGE_SIZE}
-                  height={CARD_IMAGE_SIZE}
-                  marginBottom="sToM"
-                />
-              }
-              text="Téléconsultez avec un practicien sans rendez-vous"
-              width={CARD_IMAGE_SIZE + 80}
-              paddingBottom="m"
-            />
-            <Card
-              image={
-                <SvgIcon
-                  icon={DataImage}
-                  width={CARD_IMAGE_SIZE}
-                  height={CARD_IMAGE_SIZE}
-                />
-              }
-              text="Vos documents de santé toujours avec vous en sécurité"
-              width={CARD_IMAGE_SIZE + 80}
-              paddingBottom="m"
-              marginLeft="sToM"
-            />
+        <Box paddingVertical="mToL" paddingHorizontal="sToM">
+          <Box marginBottom="sToM">
+            <Text variant="label">
+              Avec l'application Maiia
+            </Text>
+            <ScrollView
+              style={{
+                paddingHorizontal: spacing.s
+              }}
+              horizontal
+            >
+              <Card
+                image={
+                  <SvgIcon
+                    icon={TLCImage}
+                    width={CARD_IMAGE_SIZE}
+                    height={CARD_IMAGE_SIZE}
+                    marginBottom="sToM"
+                  />
+                }
+                text="Téléconsultez avec un practicien sans rendez-vous"
+                width={CARD_IMAGE_SIZE + 80}
+                paddingBottom="m"
+              />
+              <Card
+                image={
+                  <SvgIcon
+                    icon={DataImage}
+                    width={CARD_IMAGE_SIZE}
+                    height={CARD_IMAGE_SIZE}
+                  />
+                }
+                text="Vos documents de santé toujours avec vous en sécurité"
+                width={CARD_IMAGE_SIZE + 80}
+                paddingBottom="m"
+                marginLeft="sToM"
+              />
+              <Card
+                image={
+                  <SvgIcon
+                    icon={MedicationImage}
+                    width={CARD_IMAGE_SIZE}
+                    height={CARD_IMAGE_SIZE}
+                  />
+                }
+                text="Recherchez les informations de vos médicaments"
+                width={CARD_IMAGE_SIZE + 80}
+                paddingBottom="m"
+                paddingHorizontal="m"
+                marginLeft="sToM"
+              />
+            </ScrollView>
+          </Box>
+
+          <Box>
+            <Text variant="label">
+              Mes practiciens
+            </Text>
             <Card
               image={
                 <SvgIcon
@@ -66,38 +88,18 @@ export default () => {
                   height={CARD_IMAGE_SIZE}
                 />
               }
-              text="Recherchez les informations de vos médicaments"
-              width={CARD_IMAGE_SIZE + 80}
-              paddingBottom="m"
-              paddingHorizontal="m"
-              marginLeft="sToM"
+              text="Consultez les disponibilités de mes practiciens"
+              paddingHorizontal="sToM"
+              textProps={{
+                fontSize: 16,
+                marginLeft: 'sToStoM',
+                lineHeight: 24
+              }}
+              horinzontal
             />
-          </ScrollView>
-        </Box>
-
-        <Box>
-          <Text variant="label">
-            Mes practiciens
-          </Text>
-          <Card
-            image={
-              <SvgIcon
-                icon={MedicationImage}
-                width={CARD_IMAGE_SIZE}
-                height={CARD_IMAGE_SIZE}
-              />
-            }
-            text="Consultez les disponibilités de mes practiciens"
-            paddingHorizontal="sToM"
-            textProps={{
-              fontSize: 16,
-              marginLeft: 'sToStoM',
-              lineHeight: 24
-            }}
-            horinzontal
-          />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </ScrollView>
   )
 }

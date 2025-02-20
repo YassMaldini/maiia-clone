@@ -1,5 +1,5 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { forwardRef, RefObject } from "react";
+import { forwardRef, RefObject, useContext } from "react";
 import Box from "../../../designSystem/Box/Box";
 import BottomModal from "../../../commons/BottomModal/BottomModal";
 import Text from "../../../designSystem/Text/Text";
@@ -9,8 +9,12 @@ import HouseIcon from "../../../../../assets/svg/house-regular.svg"
 import LocationArrowIcon from "../../../../../assets/svg/location-arrow.svg"
 import { popularSearch } from "../SearchSuggestionsScreen.data";
 import { TouchableOpacity } from "react-native";
+import { SearchSuggestionsContext } from "../SearchSuggestionsScreen.context";
 
 export default forwardRef<BottomSheetModal>((_, ref) => {
+
+  const { setAvailabilityFilters } = useContext(SearchSuggestionsContext)
+
   return (
     <BottomModal ref={ref} snapPoints={['45%', '100%']} enableDynamicSizing>
       <Box paddingVertical="sToStoM" paddingHorizontal="sToM">
@@ -48,6 +52,10 @@ export default forwardRef<BottomSheetModal>((_, ref) => {
               <TouchableOpacity
                 key={index}
                 style={{ flex: 2, minWidth: '45%' }}
+                onPress={() => setAvailabilityFilters(state => ({
+                  ...state,
+                  locality: value
+                }))}
               >
                 <Text>{label}</Text>
               </TouchableOpacity>

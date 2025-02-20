@@ -1,5 +1,5 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { forwardRef, useState } from "react";
+import { forwardRef, useContext, useState } from "react";
 import BottomModal from "../../../commons/BottomModal/BottomModal";
 import Box from "../../../designSystem/Box/Box";
 import Text from "../../../designSystem/Text/Text";
@@ -11,10 +11,12 @@ import BuiildingRegularIcon from "../../../../../assets/svg/building-regular.svg
 import HouseSolidIcon from "../../../../../assets/svg/house-solid.svg"
 import Switch from "../../../designSystem/Switch/Switch";
 import { ScrollView } from "react-native";
+import { SearchSuggestionsContext } from "../SearchSuggestionsScreen.context";
+import { AvailabilityFilterTypes, ConsultationModeFilters, ExtraFeeFilters, NewPatientFilters } from "../../../api/queries/useAvailabilities/useAvailabilities.types";
 
 export default forwardRef<BottomSheetModal>((_, ref) => {
 
-  const [allowNewPatient, setAllowNewPatient] = useState(false)
+  const { availabilities, availabilityFilters, setAvailabilityFilters } = useContext(SearchSuggestionsContext)
 
   return (
     <BottomModal ref={ref} snapPoints={['91%']} enableDynamicSizing>
@@ -38,21 +40,57 @@ export default forwardRef<BottomSheetModal>((_, ref) => {
                 <Button
                   icon={VideoSolidIcon}
                   label="En vidéo"
-                  variant={ButtonVariants.Outlined}
                   marginRight="s"
+                  variant={
+                    availabilityFilters.consultationModeFilter === ConsultationModeFilters.TLC ?
+                      ButtonVariants.Contained :
+                      ButtonVariants.Outlined
+                  }
+                  onPress={() => {
+                    setAvailabilityFilters(state => ({
+                      ...state,
+                      consultationModeFilter: availabilityFilters.consultationModeFilter !== ConsultationModeFilters.TLC ?
+                        ConsultationModeFilters.TLC :
+                        ConsultationModeFilters.ALL
+                    }))
+                  }}
                 />
                 <Button
                   icon={BuiildingRegularIcon}
                   label="Au cabinet"
-                  variant={ButtonVariants.Contained}
+                  variant={
+                    availabilityFilters.consultationModeFilter === ConsultationModeFilters.PHYSICAL ?
+                      ButtonVariants.Contained :
+                      ButtonVariants.Outlined
+                  }
+                  onPress={() => {
+                    setAvailabilityFilters(state => ({
+                      ...state,
+                      consultationModeFilter: availabilityFilters.consultationModeFilter !== ConsultationModeFilters.PHYSICAL ?
+                        ConsultationModeFilters.PHYSICAL :
+                        ConsultationModeFilters.ALL
+                    }))
+                  }}
                 />
               </Box>
               <Box flexDirection="row" marginTop="sToStoM">
                 <Button
                   icon={HouseSolidIcon}
                   label="Visite à domicile"
-                  variant={ButtonVariants.Outlined}
                   marginRight="s"
+                  variant={
+                    availabilityFilters.consultationModeFilter === ConsultationModeFilters.HOME_VISIT ?
+                      ButtonVariants.Contained :
+                      ButtonVariants.Outlined
+                  }
+                  onPress={() => {
+                    setAvailabilityFilters(state => ({
+                      ...state,
+                      consultationModeFilter: availabilityFilters.consultationModeFilter !== ConsultationModeFilters.HOME_VISIT ?
+                        ConsultationModeFilters.HOME_VISIT :
+                        ConsultationModeFilters.ALL
+                    }))
+                  }}
                 />
               </Box>
             </Box>
@@ -65,19 +103,43 @@ export default forwardRef<BottomSheetModal>((_, ref) => {
             <Box marginTop="s" flexDirection="row">
               <Button
                 label="Aujourd'hui"
-                variant={ButtonVariants.Outlined}
                 marginRight="s"
+                variant={
+                  availabilityFilters["availabilityFilter.type"] === AvailabilityFilterTypes.TODAY ?
+                    ButtonVariants.Contained :
+                    ButtonVariants.Outlined
+                }
+                onPress={() => {
+                  setAvailabilityFilters(state => ({
+                    ...state,
+                    "availabilityFilter.type": availabilityFilters["availabilityFilter.type"] !== AvailabilityFilterTypes.TODAY ?
+                      AvailabilityFilterTypes.TODAY :
+                      AvailabilityFilterTypes.ALL
+                  }))
+                }}
               />
               <Button
                 label="Avant 3 jours"
-                variant={ButtonVariants.Outlined}
                 marginRight="s"
+                variant={
+                  availabilityFilters["availabilityFilter.type"] === AvailabilityFilterTypes.THREE_DAY ?
+                    ButtonVariants.Contained :
+                    ButtonVariants.Outlined
+                }
+                onPress={() => {
+                  setAvailabilityFilters(state => ({
+                    ...state,
+                    "availabilityFilter.type": availabilityFilters["availabilityFilter.type"] !== AvailabilityFilterTypes.THREE_DAY ?
+                      AvailabilityFilterTypes.THREE_DAY :
+                      AvailabilityFilterTypes.ALL
+                  }))
+                }}
               />
-              <Button
+              {/* <Button
                 label={`Avant le ...`}
                 variant={ButtonVariants.Outlined}
                 marginRight="s"
-              />
+              /> */}
             </Box>
           </Box>
 
@@ -88,8 +150,15 @@ export default forwardRef<BottomSheetModal>((_, ref) => {
             <Box marginTop="s">
               <Switch
                 label="Ouvert aux nouveaux patients"
-                onValueChange={() => setAllowNewPatient(value => !value)}
-                value={allowNewPatient}
+                onValueChange={() => {
+                  setAvailabilityFilters(state => ({
+                    ...state,
+                    newPatientFilter: state.newPatientFilter === NewPatientFilters.ALL ? 
+                      NewPatientFilters.ALLOW :
+                      NewPatientFilters.ALL
+                  }))
+                }}
+                value={availabilityFilters.newPatientFilter === NewPatientFilters.ALLOW}
               />
             </Box>
           </Box>
@@ -101,14 +170,21 @@ export default forwardRef<BottomSheetModal>((_, ref) => {
             <Box marginTop="s" rowGap="xxs">
               <Switch
                 label="Sans dépassements d'honoraires"
-                onValueChange={() => setAllowNewPatient(value => !value)}
-                value={allowNewPatient}
+                onValueChange={() => {
+                  setAvailabilityFilters(state => ({
+                    ...state,
+                    extraFeeFilter: state.extraFeeFilter === ExtraFeeFilters.ALL ? 
+                      ExtraFeeFilters.DISALLOW :
+                      ExtraFeeFilters.ALL
+                  }))
+                }}
+                value={availabilityFilters.extraFeeFilter === ExtraFeeFilters.DISALLOW}
               />
-              <Switch
+              {/* <Switch
                 label="Applique le tiers payant"
                 onValueChange={() => setAllowNewPatient(value => !value)}
                 value={allowNewPatient}
-              />
+              /> */}
             </Box>
           </Box>
         </Box>
@@ -119,16 +195,16 @@ export default forwardRef<BottomSheetModal>((_, ref) => {
         padding="sToM"
         columnGap="sToM"
       >
-        <Button 
+        <Button
           flex={1}
           label="Réinitialiser"
           size={ButtonSizes.Large}
           variant={ButtonVariants.Text}
           color="textPrimary"
         />
-        <Button 
+        <Button
           flex={1}
-          label="Afficher"
+          label={`Afficher${availabilities ? ` (${availabilities.total})` : ''}`}
           size={ButtonSizes.Large}
           variant={ButtonVariants.Contained}
         />

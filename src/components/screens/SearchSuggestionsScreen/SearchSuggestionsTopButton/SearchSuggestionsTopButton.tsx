@@ -28,6 +28,7 @@ export default ({ icon: Icon, label, ...props }: SearchSuggestionsTopButtonProps
         fontSize={14} 
         color="primaryDark"
         letterSpacing={0.3}
+        textTransform="capitalize"
       >
         {label}
       </Text>

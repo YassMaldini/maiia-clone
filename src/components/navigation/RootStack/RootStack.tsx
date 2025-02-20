@@ -13,6 +13,7 @@ import HouseRegularIcon from "../../../../assets/svg/house-regular.svg"
 import HouseSolidIcon from "../../../../assets/svg/house-solid.svg"
 import SearchRegularIcon from "../../../../assets/svg/magnifying-glass-regular.svg"
 import SearchSolidIcon from "../../../../assets/svg/magnifying-glass-solid.svg"
+import { RootStackList } from './RootStack.types';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,7 +45,7 @@ export default () => {
         }}
       >
         <Screen
-          name="HomeStack"
+          name={RootStackList.HomeStack}
           component={HomeStack}
           options={{
             tabBarLabel: 'Accueil',
@@ -66,7 +67,7 @@ export default () => {
           }}
         />
         <Screen
-          name="SearchStack"
+          name={RootStackList.SearchStack}
           component={SearchStack}
           options={{
             tabBarLabel: 'Rechercher',

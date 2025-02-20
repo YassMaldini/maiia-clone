@@ -1,9 +1,5 @@
-export interface SearchSuggestionItemProps {
-  variant: SearchSuggestionItemVariants;
-}
+import { AvailabilitiesQueryResponseItem } from "../../../api/queries/useAvailabilities/useAvailabilities.types";
 
-export enum SearchSuggestionItemVariants {
-  FollowingDays = 'FollowingDays',
-  Shortly = 'Shortly',
-  NotAvailable = 'NotAvailable'
+export interface SearchSuggestionItemProps {
+  item: AvailabilitiesQueryResponseItem;
 }
