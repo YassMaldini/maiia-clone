@@ -45,6 +45,7 @@ export default ({ item }: SearchSuggestionItemProps) => {
       marginBottom="sToM"
       borderWidth={1}
       borderColor="border"
+      backgroundColor="surface"
       padding="sToStoM"
       borderRadius="s"
       onPress={() => {

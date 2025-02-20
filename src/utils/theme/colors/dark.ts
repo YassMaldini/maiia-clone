@@ -3,7 +3,7 @@ import { PALETTE as colors } from './palette';
 export const DARK_COLORS = Object.freeze({
   primary: colors.darkPrimary,
   primaryLight: colors.darkPrimaryLight,
-  primaryDark: colors.darkPrimaryDark,
+  primaryDark: colors.primaryDark,
   primaryGradientStart: colors.darkPrimaryGradientStart,
   primaryGradientEnd: colors.darkPrimaryGradientEnd,
   secondary: colors.darkSecondary,

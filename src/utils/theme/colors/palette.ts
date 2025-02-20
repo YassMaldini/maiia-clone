@@ -27,7 +27,7 @@ export const PALETTE = Object.freeze({
   darkPrimaryGradientStart: '#2ca7a2', 
   darkPrimaryGradientEnd: '#1e7f95', 
   darkSecondary: '#ff5c94', 
-  darkSecondaryLight: '#1a1d1f', 
+  darkSecondaryLight: '#292c2d', 
   darkAccent: '#72bcd4', 
   darkBackground: '#121212', 
   darkSurface: '#1c1c1c', 

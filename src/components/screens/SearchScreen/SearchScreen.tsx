@@ -160,7 +160,7 @@ export default () => {
               hasBlurIcon={isSearchBarFocused}
               placeholder="Vous recherchez ... ?"
               // editable={isSearchBarFocused}
-              onPress={() => {
+              onFocus={() => {
                 setSearchBarFocused(true)
                 searchBarRef.current?.focus()
               }}

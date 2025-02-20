@@ -12,6 +12,7 @@ export default ({ icon: Icon, label, ...props }: SearchSuggestionsTopButtonProps
       justifyContent="center"
       borderWidth={1}
       borderColor="primaryDark"
+      backgroundColor="surface"
       paddingVertical="xs"
       borderRadius="l"
       {...props}
