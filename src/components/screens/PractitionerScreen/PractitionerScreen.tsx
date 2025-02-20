@@ -25,13 +25,16 @@ import { PractitionerScreenProps } from "./PractitionerScreen.types"
 import { SvgIcon } from "../../designSystem/SvgIcon/SvgIcon"
 import { usePractitioner } from "../../api/queries/usePractitioner/usePractitioner"
 import { Loading } from "../../commons/Loading/Loading"
-import { useEffect, useMemo } from "react"
+import { useContext, useEffect, useMemo } from "react"
 import moment from "moment"
+import { RootContext } from "../../navigation/RootStack/RootStack.context"
 
 export default () => {
 
   const { params: { item, practitionerId, rootCenterId } } = useRoute<PractitionerScreenProps['route']>()
   const { goBack } = useNavigation<PractitionerScreenProps['navigation']>()
+
+  const { openNotConnectedModal } = useContext(RootContext)
 
   const { top } = useSafeAreaInsets()
 
@@ -85,8 +88,9 @@ export default () => {
         position="absolute"
         top={top + spacing.sToM}
         right={spacing.m}
+        zIndex={9}
       >
-        <Pressable onPress={goBack}>
+        <Pressable onPress={openNotConnectedModal}>
           <SvgIcon
             icon={StarIcon}
             color="white"
@@ -149,6 +153,7 @@ export default () => {
                 variant={ButtonVariants.Contained}
                 size={ButtonSizes.Large}
                 height={56}
+                onPress={openNotConnectedModal}
               />
             </Box>
           </LinearGradient>

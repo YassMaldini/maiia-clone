@@ -28,7 +28,7 @@ export default () => {
     'Regular': require('../../../assets/fonts/SourceSans3-Regular.ttf'),
     'Italic': require('../../../assets/fonts/SourceSans3-Italic.ttf'),
     'SemiBold': require('../../../assets/fonts/SourceSans3-SemiBold.ttf'),
-    'Outfit-Bold': require('../../../assets/fonts/Outfit-Bold.ttf')
+    'Bold': require('../../../assets/fonts/Outfit-Bold.ttf')
   });
 
   const onLayoutRootView = useCallback(async () => {

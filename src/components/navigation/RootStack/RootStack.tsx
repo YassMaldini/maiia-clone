@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { RootContext } from './RootStack.context';
 import { Navigator, Screen } from './RootStack.navigator';
@@ -14,6 +14,8 @@ import HouseSolidIcon from "../../../../assets/svg/house-solid.svg"
 import SearchRegularIcon from "../../../../assets/svg/magnifying-glass-regular.svg"
 import SearchSolidIcon from "../../../../assets/svg/magnifying-glass-solid.svg"
 import { RootStackList } from './RootStack.types';
+import NotConnectedBottomModal from './NotConnectedBottomModal/NotConnectedBottomModal';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,9 +23,19 @@ export default () => {
 
   const theme = useTheme<Theme>()
 
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  function openNotConnectedModal() {
+    bottomSheetModalRef.current?.present()
+  }
+
   const contextValue = useMemo(
-    () => ({}),
-    []
+    () => ({
+      openNotConnectedModal
+    }),
+    [
+      openNotConnectedModal
+    ]
   )
 
   const iconSize = 24;
@@ -89,6 +101,8 @@ export default () => {
           }}
         />
       </Navigator>
+
+      <NotConnectedBottomModal ref={bottomSheetModalRef} />
     </RootContext.Provider>
   );
 };

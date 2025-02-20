@@ -1,4 +1,6 @@
-export interface RootContextProps {}
+export interface RootContextProps {
+  openNotConnectedModal: () => void;
+}
 
 export type RootStackParamsList = {
   [RootStackList.HomeStack]: undefined;
