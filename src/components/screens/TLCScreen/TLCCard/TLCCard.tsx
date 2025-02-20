@@ -1,4 +1,4 @@
-import { Image } from "react-native"
+import { Alert, Image } from "react-native"
 import Box from "../../../designSystem/Box/Box"
 import Pressable from "../../../designSystem/Pressable/Pressable"
 import PratImage from "../../../../../assets/images/img_prat.png"
@@ -8,13 +8,8 @@ import Chip from "../../../designSystem/Chip/Chip"
 import { ChipColors } from "../../../designSystem/Chip/Chip.types"
 import { SvgIcon } from "../../../designSystem/SvgIcon/SvgIcon"
 import { TLCCardProps } from "./TLCCard.types"
-import { useNavigation } from "@react-navigation/native"
-import { TLCScreenProps } from "../TLCScreen.types"
-import { TLCStackScreenList } from "../../../navigation/TLCStack/TLCStack.types"
 
 export default ({ item }: TLCCardProps) => {
-
-  const { navigate } = useNavigation<TLCScreenProps['navigation']>()
 
   return (
     <Pressable
@@ -25,11 +20,12 @@ export default ({ item }: TLCCardProps) => {
       flexDirection="row"
       marginBottom="sToM"
       onPress={() => {
-        navigate(TLCStackScreenList.PractitionerScreen, {
-          item,
-          practitionerId: item.id,
-          rootCenterId: item.center.id
-        })
+        // navigate(TLCStackScreenList.PractitionerScreen, {
+        //   item,
+        //   practitionerId: item.id,
+        //   rootCenterId: item.center.id
+        // })
+        Alert.alert('Lien non fonctionnel')
       }}
     >
       <Box flex={2} justifyContent="flex-start" paddingVertical="s">
@@ -100,7 +96,7 @@ export default ({ item }: TLCCardProps) => {
             color="primaryDark"
             marginTop="xs"
           >
-            Attente: <Text fontSize={11} fontFamily="SemiBold" color="primaryDark">{item.waitingRoomPatientNumber} patient</Text>
+            Attente: <Text fontSize={11} fontFamily="SemiBold" color="primaryDark">{`${item.waitingRoomPatientNumber} patient`}</Text>
           </Text>
         }
       </Box>

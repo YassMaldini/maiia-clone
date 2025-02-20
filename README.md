@@ -21,7 +21,7 @@ Follow these steps to set up the project locally.
 
 ### Prerequisites
 
-- Create a **.env.local** file following the example. Staging APIs are allowed.
+- Create a **.env.local** file following the example.
   ```sh
   EXPO_PUBLIC_API_URL=https://xxx-xxx.mxxxx.com
   EXPO_PUBLIC_SUGGESTION_API_URL=https://xxxxxxxxxx.mxxxx.com

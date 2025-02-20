@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "maiia-clone",
+    "name": "Maiia",
     "slug": "maiia-clone",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -41,6 +41,11 @@
     ],
     "ios": {
       "bundleIdentifier": "com.yass66s.maiiaclone"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5f081cb4-69b9-4399-b52a-96ea1b454cd3"
+      }
     }
   }
 }

@@ -38,3 +38,5 @@ yarn-error.*
 # Builds
 android/
 ios/
+
+eas.json

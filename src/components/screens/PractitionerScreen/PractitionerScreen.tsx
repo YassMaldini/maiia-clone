@@ -30,6 +30,7 @@ import moment from "moment"
 import { RootContext } from "../../navigation/RootStack/RootStack.context"
 import PratImage from "../../../../assets/images/img_prat.png"
 import CenterImage from "../../../../assets/images/img_center.png"
+import { api } from "../../api/api"
 
 export default () => {
 
@@ -56,7 +57,7 @@ export default () => {
 
   const displayImage = useMemo(() => {
     if (practitioner?.publicInformation.mainPicture) {
-      return { uri: `https://api-pat.staging.maiia.com/pat-public/files/${practitioner?.publicInformation.mainPicture.thumbnailS3Id}` }
+      return { uri: `${api.getBaseURL()}/pat-public/files/${practitioner?.publicInformation.mainPicture.thumbnailS3Id}` }
     } else {
       switch (item.type) {
         case "PRACTITIONER":

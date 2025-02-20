@@ -10,8 +10,18 @@ import { Theme } from "../../../utils/theme/theme"
 import TLCImage from "../../../../assets/svg/tlc.svg"
 import DataImage from "../../../../assets/svg/data.svg"
 import MedicationImage from "../../../../assets/svg/medication.svg"
+import { useNavigation } from "@react-navigation/native"
+import { HomeScreenProps } from "./HomeScreen.types"
+import Pressable from "../../designSystem/Pressable/Pressable"
+import { RootStackList } from "../../navigation/RootStack/RootStack.types"
+import { useContext } from "react"
+import { RootContext } from "../../navigation/RootStack/RootStack.context"
 
 export default () => {
+
+  const { navigate } = useNavigation()
+
+  const { openNotConnectedModal } = useContext(RootContext)
 
   const { colors, spacing } = useTheme<Theme>()
 
@@ -31,34 +41,69 @@ export default () => {
               style={{
                 paddingHorizontal: spacing.s
               }}
+              showsHorizontalScrollIndicator={false}
               horizontal
             >
-              <Card
-                image={
-                  <SvgIcon
-                    icon={TLCImage}
-                    width={CARD_IMAGE_SIZE}
-                    height={CARD_IMAGE_SIZE}
-                    marginBottom="sToM"
-                  />
-                }
-                text="Téléconsultez avec un practicien sans rendez-vous"
-                width={CARD_IMAGE_SIZE + 80}
-                paddingBottom="m"
-              />
-              <Card
-                image={
-                  <SvgIcon
-                    icon={DataImage}
-                    width={CARD_IMAGE_SIZE}
-                    height={CARD_IMAGE_SIZE}
-                  />
-                }
-                text="Vos documents de santé toujours avec vous en sécurité"
-                width={CARD_IMAGE_SIZE + 80}
-                paddingBottom="m"
-                marginLeft="sToM"
-              />
+              <Pressable onPress={() => {
+                // @ts-ignore
+                navigate(RootStackList.TLCStack)
+              }}>
+                <Card
+                  flex={1}
+                  image={
+                    <SvgIcon
+                      icon={TLCImage}
+                      width={CARD_IMAGE_SIZE}
+                      height={CARD_IMAGE_SIZE}
+                      marginBottom="sToM"
+                    />
+                  }
+                  text="Téléconsultez avec un practicien sans rendez-vous"
+                  width={CARD_IMAGE_SIZE + 80}
+                  paddingBottom="m"
+                />
+              </Pressable>
+              <Pressable onPress={openNotConnectedModal}>
+                <Card
+                  flex={1}
+                  image={
+                    <SvgIcon
+                      icon={DataImage}
+                      width={CARD_IMAGE_SIZE}
+                      height={CARD_IMAGE_SIZE}
+                    />
+                  }
+                  text="Vos documents de santé toujours avec vous en sécurité"
+                  width={CARD_IMAGE_SIZE + 80}
+                  paddingBottom="m"
+                  marginLeft="sToM"
+                />
+              </Pressable>
+              <Pressable onPress={openNotConnectedModal}>
+                <Card
+                  flex={1}
+                  image={
+                    <SvgIcon
+                      icon={MedicationImage}
+                      width={CARD_IMAGE_SIZE}
+                      height={CARD_IMAGE_SIZE}
+                    />
+                  }
+                  text="Recherchez les informations de vos médicaments"
+                  width={CARD_IMAGE_SIZE + 80}
+                  paddingBottom="m"
+                  paddingHorizontal="m"
+                  marginLeft="sToM"
+                />
+              </Pressable>
+            </ScrollView>
+          </Box>
+
+          <Box>
+            <Text variant="label">
+              Mes practiciens
+            </Text>
+            <Pressable onPress={openNotConnectedModal}>
               <Card
                 image={
                   <SvgIcon
@@ -67,36 +112,16 @@ export default () => {
                     height={CARD_IMAGE_SIZE}
                   />
                 }
-                text="Recherchez les informations de vos médicaments"
-                width={CARD_IMAGE_SIZE + 80}
-                paddingBottom="m"
-                paddingHorizontal="m"
-                marginLeft="sToM"
+                text="Consultez les disponibilités de mes practiciens"
+                paddingHorizontal="sToM"
+                textProps={{
+                  fontSize: 16,
+                  marginLeft: 'sToStoM',
+                  lineHeight: 24
+                }}
+                horinzontal
               />
-            </ScrollView>
-          </Box>
-
-          <Box>
-            <Text variant="label">
-              Mes practiciens
-            </Text>
-            <Card
-              image={
-                <SvgIcon
-                  icon={MedicationImage}
-                  width={CARD_IMAGE_SIZE}
-                  height={CARD_IMAGE_SIZE}
-                />
-              }
-              text="Consultez les disponibilités de mes practiciens"
-              paddingHorizontal="sToM"
-              textProps={{
-                fontSize: 16,
-                marginLeft: 'sToStoM',
-                lineHeight: 24
-              }}
-              horinzontal
-            />
+            </Pressable>
           </Box>
         </Box>
       </Box>

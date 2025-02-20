@@ -31,8 +31,7 @@ export default ({ item }: SearchSuggestionItemProps) => {
 
   const displayImage = useMemo(() => {
     if (item.avatarPicture) {
-      const isStaging = api.getBaseURL().includes('staging')
-      return { uri: `https://api-pat${isStaging ? '.staging' : ''}.maiia.com/pat-public/files/${item.avatarPicture?.thumbnailS3Id}` }
+      return { uri: `${api.getBaseURL()}/pat-public/files/${item.avatarPicture?.thumbnailS3Id}` }
     } else {
       switch (item.type) {
         case "PRACTITIONER":
