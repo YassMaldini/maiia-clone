@@ -11,7 +11,14 @@ export default ({ label, ...props }: SwitchProps) => {
 
   return (
     <Box flexDirection="row" alignItems="center">
-      <Switch thumbColor={props.value ? colors.primary : colors.secondaryLight} {...props} />
+      <Switch
+        thumbColor={props.value ? colors.primary : colors.secondaryLight}
+        trackColor={{
+          true: colors.primaryGradientEnd,
+          false: colors.secondaryLight
+        }}
+        {...props}
+      />
       {label &&
         <Text fontSize={16}>{label}</Text>
       }

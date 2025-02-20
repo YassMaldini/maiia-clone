@@ -13,6 +13,8 @@ import { SearchSuggestionItemAvailabilitiesVariants } from "./SearchSuggestionIt
 import { useMemo } from "react";
 import PratImage from "../../../../../assets/images/img_prat.png"
 import CenterImage from "../../../../../assets/images/img_center.png"
+import moment from "moment";
+import { api } from "../../../api/api";
 
 export default ({ item }: SearchSuggestionItemProps) => {
 
@@ -29,7 +31,8 @@ export default ({ item }: SearchSuggestionItemProps) => {
 
   const displayImage = useMemo(() => {
     if (item.avatarPicture) {
-      return { uri: `https://api-pat.staging.maiia.com/pat-public/files/${item.avatarPicture?.thumbnailS3Id}` }
+      const isStaging = api.getBaseURL().includes('staging')
+      return { uri: `https://api-pat${isStaging ? '.staging' : ''}.maiia.com/pat-public/files/${item.avatarPicture?.thumbnailS3Id}` }
     } else {
       switch (item.type) {
         case "PRACTITIONER":
@@ -38,7 +41,17 @@ export default ({ item }: SearchSuggestionItemProps) => {
           return CenterImage
       }
     }
-  }, [item]) 
+  }, [item])
+
+  const availabiltyVariant = useMemo(() => {
+    if (moment().add(3, 'days').isBefore(item.nextAvailability)) {
+      return SearchSuggestionItemAvailabilitiesVariants.Shortly
+    } else if (!item.nextAvailability) {
+      return SearchSuggestionItemAvailabilitiesVariants.NotAvailable
+    } else {
+      return SearchSuggestionItemAvailabilitiesVariants.FollowingDays
+    }
+  }, [item])
 
   return (
     <Pressable
@@ -52,17 +65,17 @@ export default ({ item }: SearchSuggestionItemProps) => {
         switch (item.type) {
           case "PRACTITIONER":
             if (item.practitioner && item.center) {
-              navigate(SearchStackScreenList.PractitionerScreen, { 
+              navigate(SearchStackScreenList.PractitionerScreen, {
                 item,
                 practitionerId: item.practitioner.id,
                 rootCenterId: item.center.id
               })
-            } 
-            // else if (item.practitioner) {
-            //   navigate(SearchStackScreenList.PractitionerScreen, { 
-            //     practitionerId: item.practitioner.id
-            //   })
-            // }
+            }
+          // else if (item.practitioner) {
+          //   navigate(SearchStackScreenList.PractitionerScreen, { 
+          //     practitionerId: item.practitioner.id
+          //   })
+          // }
           // case "CENTER":
           //   navigate(SearchStackScreenList.PractitionerScreen, { practitionerId: 'someId' })
         }
@@ -103,8 +116,8 @@ export default ({ item }: SearchSuggestionItemProps) => {
       }
 
       <SearchSuggestionItemAvailabilities
-        availabilities={item.availabilities}
-        variant={SearchSuggestionItemAvailabilitiesVariants.FollowingDays}
+        item={item}
+        variant={availabiltyVariant}
       />
 
       <TouchableOpacity>

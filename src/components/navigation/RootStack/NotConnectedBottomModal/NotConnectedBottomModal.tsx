@@ -8,17 +8,17 @@ import { ButtonSizes, ButtonVariants } from "../../../designSystem/Button/Button
 
 export default forwardRef<BottomSheetModal>((_, ref) => {
   return (
-    <BottomModal ref={ref} snapPoints={['28%']} enableDynamicSizing>
+    <BottomModal ref={ref} snapPoints={['30%']} enableDynamicSizing>
       <Box alignItems="center" padding="sToM">
-        <Text 
-          fontFamily="Bold" 
+        <Text
+          fontFamily="Bold"
           fontSize={24}
           marginBottom="sToM"
         >
           Vous n'êtes pas connecté
         </Text>
-        <Text 
-          textAlign="center" 
+        <Text
+          textAlign="center"
           fontSize={15}
           marginBottom="sToM"
         >

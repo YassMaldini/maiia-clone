@@ -1,7 +1,7 @@
 import { AvailabilitiesQueryResponseItem } from "../../../../api/queries/useAvailabilities/useAvailabilities.types";
 
 export interface SearchSuggestionItemAvailabilitiesProps {
-  availabilities: AvailabilitiesQueryResponseItem['availabilities'];
+  item: AvailabilitiesQueryResponseItem;
   variant: SearchSuggestionItemAvailabilitiesVariants;
 }
 

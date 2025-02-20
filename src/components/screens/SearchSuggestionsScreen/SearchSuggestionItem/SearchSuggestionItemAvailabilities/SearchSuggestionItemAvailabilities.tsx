@@ -4,16 +4,16 @@ import { SearchSuggestionItemAvailabilitiesProps, SearchSuggestionItemAvailabili
 import Text from "../../../../designSystem/Text/Text";
 import moment from "moment";
 
-export default ({ availabilities, variant }: SearchSuggestionItemAvailabilitiesProps) => {
+export default ({ item, variant }: SearchSuggestionItemAvailabilitiesProps) => {
 
   const Content = useCallback(() => {
     switch (variant) {
       case SearchSuggestionItemAvailabilitiesVariants.FollowingDays:
         return (
-          <Box 
-            flexDirection="row" 
-            justifyContent="space-between" 
-            columnGap="s" 
+          <Box
+            flexDirection="row"
+            justifyContent="space-between"
+            columnGap="s"
             marginTop="sToStoM"
           >
             <Box justifyContent="flex-end" rowGap="sToStoM">
@@ -24,10 +24,10 @@ export default ({ availabilities, variant }: SearchSuggestionItemAvailabilitiesP
                 <Text fontSize={13}>Jusqu'à</Text>
               </Box>
             </Box>
-            {availabilities?.map(({ firstAvailability, lastAvailability }, index) => (
-              <Box 
-                key={index} 
-                flex={1} 
+            {item.availabilities?.map(({ firstAvailability, lastAvailability }, index) => (
+              <Box
+                key={index}
+                flex={1}
                 // rowGap="sToStoM"
                 style={{
                   rowGap: 10
@@ -63,8 +63,8 @@ export default ({ availabilities, variant }: SearchSuggestionItemAvailabilitiesP
         )
       case SearchSuggestionItemAvailabilitiesVariants.Shortly:
         return (
-          <Box 
-            justifyContent="center" 
+          <Box
+            justifyContent="center"
             alignItems="center"
             marginTop="sToStoM"
             padding="sToStoM"
@@ -73,13 +73,13 @@ export default ({ availabilities, variant }: SearchSuggestionItemAvailabilitiesP
             borderRadius="s"
           >
             <Text marginBottom="xxs">Prochaine disponibilité le :</Text>
-            <Text fontFamily="SemiBold" fontSize={16}>lundi 24 févr.</Text>
+            <Text fontFamily="SemiBold" fontSize={16}>{moment(item.nextAvailability).format('dddd DD MMM')}</Text>
           </Box>
         )
       case SearchSuggestionItemAvailabilitiesVariants.NotAvailable:
         return (
           <Box
-            justifyContent="center" 
+            justifyContent="center"
             alignItems="center"
             padding="sToStoM"
             backgroundColor="secondaryLight"
@@ -89,12 +89,8 @@ export default ({ availabilities, variant }: SearchSuggestionItemAvailabilitiesP
             <Text>Pas de rendez-vous en ligne pour ce praticien.</Text>
           </Box>
         )
-      default:
-        return (
-          <Box flexDirection="row"></Box>
-        )
     }
-  }, [variant])
+  }, [item, variant])
 
   return (
     <Content />

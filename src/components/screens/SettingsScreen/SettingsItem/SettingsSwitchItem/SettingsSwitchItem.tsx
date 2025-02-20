@@ -12,6 +12,7 @@ const SettingsSwitchItem = ({ label, toggleSwitch, isEnabled }: SettingsSwitchIt
       {...{ label }}
       rightElement={
         <Switch
+          thumbColor={colors.primary}
           onValueChange={toggleSwitch}
           value={isEnabled}
         />

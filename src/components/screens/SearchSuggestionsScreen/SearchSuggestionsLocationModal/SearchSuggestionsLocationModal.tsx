@@ -1,5 +1,5 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { forwardRef, RefObject, useContext } from "react";
+import { forwardRef, RefObject } from "react";
 import Box from "../../../designSystem/Box/Box";
 import BottomModal from "../../../commons/BottomModal/BottomModal";
 import Text from "../../../designSystem/Text/Text";
@@ -9,7 +9,6 @@ import HouseIcon from "../../../../../assets/svg/house-regular.svg"
 import LocationArrowIcon from "../../../../../assets/svg/location-arrow.svg"
 import { popularSearch } from "../SearchSuggestionsScreen.data";
 import { TouchableOpacity } from "react-native";
-import { SearchSuggestionsContext } from "../SearchSuggestionsScreen.context";
 import { useDispatch } from "react-redux";
 import { setCurrentLocation } from "../../../../store/main/mainActions/mainActions";
 
@@ -17,10 +16,8 @@ export default forwardRef<BottomSheetModal>((_, ref) => {
 
   const dispatch = useDispatch()
 
-  const { setAvailabilityFilters } = useContext(SearchSuggestionsContext)
-
   return (
-    <BottomModal ref={ref} snapPoints={['45%', '100%']} enableDynamicSizing>
+    <BottomModal ref={ref} snapPoints={['50%', '100%']} enableDynamicSizing>
       <Box paddingVertical="sToStoM" paddingHorizontal="sToM">
         <Text
           fontFamily="SemiBold"

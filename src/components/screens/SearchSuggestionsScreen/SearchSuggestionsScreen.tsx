@@ -55,11 +55,11 @@ export default () => {
     locality: currentLocation
   })
 
-  const { 
-    data: availabilities, 
-    isLoading: isAvailabilitiesLoading, 
-    refetch: refetchAvailabilities, 
-    isRefetching: isAvailabilitiesRefetching 
+  const {
+    data: availabilities,
+    isLoading: isAvailabilitiesLoading,
+    refetch: refetchAvailabilities,
+    isRefetching: isAvailabilitiesRefetching
   } = useAvailabilities(availabilityFilters)
 
   useEffect(() => {
@@ -91,16 +91,16 @@ export default () => {
   }, [availabilityFilters])
 
   const contextValue = useMemo(() => ({
-    availabilityFilters, 
+    availabilityFilters,
     setAvailabilityFilters,
     availabilities
   }), [
-    availabilityFilters, 
+    availabilityFilters,
     setAvailabilityFilters,
     availabilities
   ])
 
-  const { isLoading } = useMergedStatesFromFetchers({ loadings: [isAvailabilitiesLoading, isAvailabilitiesRefetching]})
+  const { isLoading } = useMergedStatesFromFetchers({ loadings: [isAvailabilitiesLoading, isAvailabilitiesRefetching] })
 
   return (
     <SearchSuggestionsContext.Provider value={contextValue}>
@@ -161,6 +161,7 @@ export default () => {
                 label={availabilityFilters.locality ? availabilityFilters.locality.split('-')[1] : "A Compléter"}
                 onPress={() => {
                   bottomSheetLocationModalRef.current?.present()
+                  bottomSheetLocationModalRef.current?.snapToIndex(1)
                 }}
               />
               <SearchSuggestionsTopButton
@@ -173,7 +174,7 @@ export default () => {
             </Box>
 
             <Box flex={1} marginTop="sToM">
-              <FlashList 
+              <FlashList
                 data={availabilities?.items}
                 ListHeaderComponent={
                   <Text variant="label" marginBottom="sToStoM">
@@ -182,13 +183,14 @@ export default () => {
                 }
                 renderItem={({ item, index }) => {
                   return (
-                    <SearchSuggestionItem 
+                    <SearchSuggestionItem
                       key={index}
-                      item={item} 
+                      item={item}
                     />
                   )
                 }}
                 estimatedItemSize={318}
+                ListEmptyComponent={isLoading ? <Loading /> : undefined}
               />
             </Box>
           </Box>

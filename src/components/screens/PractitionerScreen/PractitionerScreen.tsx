@@ -182,7 +182,6 @@ export default () => {
             borderTopLeftRadius="m"
             borderTopRightRadius="m"
             padding="sToM"
-            minHeight={Dimensions.get('window').height}
           >
             <ScrollView style={{ flex: 1 }}>
               <Box flex={1} paddingTop="m">
